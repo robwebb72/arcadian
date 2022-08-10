@@ -13,21 +13,24 @@ FPS = 30
 
 
 class SystemSettings:
-    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock):
+    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock) -> None:
         self._screen: pygame.Surface = screen
         self._clock: pygame.time.Clock = clock
+        self._font: pygame.font.Font = pygame.font.Font("freesansbold.ttf", 12)
 
-    def get_screen(self):
+    def get_screen(self) -> pygame.Surface:
         return self._screen
 
-    def get_clock(self):
+    def get_clock(self) -> pygame.time.Clock:
         return self._clock
 
-    def get_screen_size(self):
+    def get_screen_size(self) -> typing.Tuple[int, int]:
         width = self._screen.get_width()
         height = self._screen.get_height()
         return (width, height)
 
+    def get_font(self) -> pygame.font.Font:
+        return self._font;
 
 class GameData:
     def __init__(self, screen_size: typing.Tuple[int, int]) -> None:
@@ -54,8 +57,7 @@ def game_loop(settings: SystemSettings):
     screen = settings.get_screen()
     clock = settings.get_clock()
 
-    fontObj = pygame.font.Font("freesansbold.ttf", 12)
-    textSurfaceObj = fontObj.render("Welcome to Arcadian", True, colours.GREEN)
+    textSurfaceObj = settings.get_font().render("Welcome to Arcadian", True, colours.GREEN)
     textRectObj = textSurfaceObj.get_rect()
     textRectObj.center = (SCREEN_WIDTH / 2, 150)
 
@@ -86,7 +88,7 @@ def game_loop(settings: SystemSettings):
         hours_string = f"{(int(game_time / 3600)):0>2}"
 
         game_time_string = f'{hours_string}:{minutes_string}:{seconds_string}.{milliseconds_string}'
-        game_time_SurfaceObj = fontObj.render(game_time_string, True, colours.AQUA)
+        game_time_SurfaceObj = settings.get_font().render(game_time_string, True, colours.AQUA)
         game_time_RectObj = game_time_SurfaceObj.get_rect()
         game_time_RectObj.center = (SCREEN_WIDTH / 2, 20)
 
