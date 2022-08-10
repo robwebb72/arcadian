@@ -6,7 +6,7 @@ A very simple little dodgem game.
 
 This list is not in order
 
-- [ ] add a start screen
+- [x] add a start screen
 - [ ] add collision detection - use sprites for this
 - [ ] add high score feature
 - [x] display time correctly
