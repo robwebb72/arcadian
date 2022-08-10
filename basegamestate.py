@@ -1,7 +1,7 @@
 import pygame
 
 
-class GameState:
+class BaseGameState:
     def state_init(self):
         pass
 
