@@ -4,31 +4,38 @@ SCREEN_WIDTH = 512
 SCREEN_HEIGHT = 768
 PLAYER_WIDTH = 30
 PLAYER_HEIGHT = 30
+PLAYER_RECT = pygame.Rect(0,0,PLAYER_WIDTH, PLAYER_HEIGHT)
 
 
 class Player:
     def __init__(self):
-        self.direction_left = False
-        self.direction_right = False
-        self.direction_up = False
-        self.direction_down = False
-        self.direction = 0
+        self._direction_left = False
+        self._direction_right = False
+        self._direction_up = False
+        self._direction_down = False
         self.location_x = (SCREEN_WIDTH - PLAYER_WIDTH) / 2
         self.location_y = 708
         self.speed = 200
-        self.image = pygame.image.load("images/player.png")
+        image = pygame.image.load("images/player.png")
+
+        self._image_straight = self._get_image_at(image, PLAYER_RECT)
+        self._image_left = self._get_image_at(image, pygame.Rect(PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT))
+        self._image_right = self._get_image_at(image, pygame.Rect(PLAYER_WIDTH*2, 0, PLAYER_WIDTH, PLAYER_HEIGHT))
+
+    def _get_image_at(self, surface, rect: pygame.Rect) -> pygame.Surface:
+        new_surface = pygame.Surface(rect.size)
+        new_surface.blit(surface, (0,0), rect)
+        return new_surface
+
 
     def update(self, dt_sec):
-        self.direction = 0
-        if self.direction_left:
-            self.direction = 1
+        if self._direction_left:
             self.location_x -= dt_sec * self.speed
-        if self.direction_right:
-            self.direction = 2
+        if self._direction_right:
             self.location_x += dt_sec * self.speed
-        if self.direction_up:
+        if self._direction_up:
             self.location_y -= dt_sec * self.speed
-        if self.direction_down:
+        if self._direction_down:
             self.location_y += dt_sec * self.speed
         self._check_bounds()
 
@@ -45,32 +52,21 @@ class Player:
     def location(self):
         return (self.location_x, self.location_y)
 
-    def rect(self):
-        return pygame.Rect(
-            self.direction * PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT
-        )
-
-    def right(self, state):
-        self.direction_right = state
-
-    def left(self, state):
-        self.direction_left = state
-
-    def up(self, state):
-        self.direction_up = state
-
-    def down(self, state):
-        self.direction_down = state
-
     def draw(self, screen):
-        screen.blit(self.image, self.location(), self.rect())
+        image = self._image_straight
+        if self._direction_right:
+            image = self._image_right
+        elif self._direction_left:
+            image = self._image_left
+
+        screen.blit(image, self.location())
 
     def update_from_input(self, key: int, event_type: int) -> None:
         if key == pygame.K_RIGHT:
-            self.right(event_type == pygame.KEYDOWN)
+            self._direction_right = event_type == pygame.KEYDOWN
         elif key == pygame.K_LEFT:
-            self.left(event_type == pygame.KEYDOWN)
+            self._direction_left = event_type == pygame.KEYDOWN
         elif key == pygame.K_UP:
-            self.up(event_type == pygame.KEYDOWN)
+            self._direction_up = event_type == pygame.KEYDOWN
         elif key == pygame.K_DOWN:
-            self.down(event_type == pygame.KEYDOWN)
+            self._direction_down = event_type == pygame.KEYDOWN
