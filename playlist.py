@@ -40,6 +40,7 @@ class PlayList:
         self.play_track(self._track_number)
 
     def start(self) -> None:
+        random.shuffle(self._track_files)
         self._track_number = 0
         self.play_track(0)
 
