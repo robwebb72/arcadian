@@ -9,23 +9,7 @@ class MenuState(BaseGameState):
     def __init__(self, system_settings: SystemSettings) -> None:
         self._game_time: float = 0
         self._system_settings: SystemSettings = system_settings
-        self._text_surface1 = self._system_settings.get_font().render(
-            "Welcome to Arcadian", True, colours.GREEN
-        )
-        self._text_rect1 = self._text_surface1.get_rect()
-        self._text_rect1.center = (self._system_settings.get_screen_size()[0] / 2, 150)
-
-        self._text_surface2 = self._system_settings.get_font().render(
-            "Press SPACE to Start", True, colours.AQUA
-        )
-        self._text_rect2 = self._text_surface2.get_rect()
-        self._text_rect2.center = (self._system_settings.get_screen_size()[0] / 2, 500)
-
-        self._text_surface3 = self._system_settings.get_font().render(
-            "Press ESCAPE to Quit", True, colours.AQUA
-        )
-        self._text_rect3 = self._text_surface3.get_rect()
-        self._text_rect3.center = (self._system_settings.get_screen_size()[0] / 2, 530)
+        self._screen_width = self._system_settings._screen.get_width()
         super().__init__()
 
     def initialise(self) -> None:
@@ -35,9 +19,14 @@ class MenuState(BaseGameState):
         return super().update(dt_sec)
 
     def draw(self, screen: pygame.Surface) -> None:
-        screen.blit(self._text_surface1, self._text_rect1)
-        screen.blit(self._text_surface2, self._text_rect2)
-        screen.blit(self._text_surface3, self._text_rect3)
+        super().print(screen, "Welcome to Arcadian", self._screen_width *.5, 150, colours.GREEN)
+        super().print(screen, "Press SPACE to Start", self._screen_width *.5, 500, colours.AQUA)
+        super().print(screen, "Press ESCAPE to Quit", self._screen_width *.5, 530, colours.AQUA)
+
+        besttime_str = super().create_time_str(self._system_settings._best_time)
+        super().print(screen, "BEST TIME", self._screen_width * 0.75, 15, colours.AQUA)
+        super().print(screen, besttime_str, self._screen_width * 0.75, 30, colours.AQUA)
+
         return super().draw(screen)
 
     def handle_input(self, type: int, key: int) -> None:
