@@ -41,7 +41,7 @@ class GameState(BaseGameState):
         self._game_data.update(dt_sec)
         return super().update(dt_sec)
 
-    def create_time_str(self, time:float) -> str:
+    def create_time_str(self, time: float) -> str:
 
         milliseconds_string = f"{int(time * 10)% 10}"
         seconds_string = f"{(int(time) % 60):0>2}"
@@ -56,14 +56,18 @@ class GameState(BaseGameState):
         if key == pygame.K_ESCAPE:
             self._system_settings.set_state("menu")
 
-    def print_to_screen(self, screen:pygame.Surface, message: str, x:int, y:int, colour: typing.Tuple[int,int,int]) -> None:
-        print_surface = self._system_settings.get_font().render(
-            message, True, colour
-        )
+    def print_to_screen(
+        self,
+        screen: pygame.Surface,
+        message: str,
+        x: int,
+        y: int,
+        colour: typing.Tuple[int, int, int],
+    ) -> None:
+        print_surface = self._system_settings.get_font().render(message, True, colour)
         print_rect = print_surface.get_rect()
         print_rect.center = (x, y)
         screen.blit(print_surface, print_rect)
-
 
     def draw(self, screen: pygame.Surface) -> None:
         self._game_data.draw(screen)
@@ -73,5 +77,7 @@ class GameState(BaseGameState):
         self.print_to_screen(screen, "TIME", screen_width * 0.5, 15, colours.AQUA)
         self.print_to_screen(screen, gametime_str, screen_width * 0.5, 30, colours.AQUA)
         self.print_to_screen(screen, "BEST TIME", screen_width * 0.75, 15, colours.AQUA)
-        self.print_to_screen(screen, besttime_str, screen_width * 0.75, 30, colours.AQUA)
+        self.print_to_screen(
+            screen, besttime_str, screen_width * 0.75, 30, colours.AQUA
+        )
         return super().draw(screen)
