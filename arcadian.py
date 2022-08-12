@@ -25,9 +25,7 @@ def get_hiscore() -> float:
         with open("hiscore.dat") as file:
             contents = file.read()
             hiscore = float(contents)
-    except FileNotFoundError:
-        pass
-    except ValueError:
+    except (FileNotFoundError, ValueError):
         pass
     return hiscore
 
