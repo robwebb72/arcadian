@@ -18,6 +18,22 @@ FPS = 30
 
 game_states = {}
 
+def get_hiscore() -> float:
+    hiscore:float = 0
+    try:
+        with open('hiscore.dat') as file:
+            contents = file.read()
+            hiscore = float(contents)
+    except FileNotFoundError:
+        pass
+    except ValueError:
+        pass  
+    return hiscore
+
+def save_hiscore(score:float) -> None:
+    with open('hiscore.dat','w') as file:
+        print(score)
+        file.write(f'{score}')
 
 def game_init() -> SystemSettings:
     pygame.init()
@@ -25,7 +41,9 @@ def game_init() -> SystemSettings:
     clock.tick()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Arcadian")
-    return SystemSettings(screen, clock)
+    settings :SystemSettings = SystemSettings(screen, clock)
+    settings._best_time = get_hiscore()
+    return settings
 
 
 def game_loop(settings: SystemSettings):
@@ -69,6 +87,7 @@ def game():
     settings.set_state("menu")
     settings.set_init_state(True)
     game_loop(settings)
+    save_hiscore(settings._best_time)
     pygame.quit()
     sys.exit()
 
