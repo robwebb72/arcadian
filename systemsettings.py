@@ -10,6 +10,7 @@ class SystemSettings:
         self._font: pygame.font.Font = pygame.font.Font("freesansbold.ttf", 12)
         self._currentstate: str = "menu"
         self._init_state: bool = True
+        self._best_time: float = 0
 
     def get_screen(self) -> pygame.Surface:
         return self._screen
