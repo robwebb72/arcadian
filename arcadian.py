@@ -1,11 +1,7 @@
 import sys
-import typing
-
 import pygame
 
 import colours
-from asteroid import AsteroidField
-from player import Player
 from starfield import Starfield
 from systemsettings import SystemSettings
 
@@ -18,22 +14,22 @@ FPS = 30
 
 game_states = {}
 
+
 def get_hiscore() -> float:
-    hiscore:float = 0
+    hiscore: float = 0
     try:
-        with open('hiscore.dat') as file:
+        with open("hiscore.dat") as file:
             contents = file.read()
             hiscore = float(contents)
-    except FileNotFoundError:
+    except (FileNotFoundError, ValueError):
         pass
-    except ValueError:
-        pass  
     return hiscore
 
-def save_hiscore(score:float) -> None:
-    with open('hiscore.dat','w') as file:
-        print(score)
-        file.write(f'{score}')
+
+def save_hiscore(score: float) -> None:
+    with open("hiscore.dat", "w") as file:
+        file.write(f"{score}")
+
 
 def game_init() -> SystemSettings:
     pygame.init()
@@ -41,7 +37,7 @@ def game_init() -> SystemSettings:
     clock.tick()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Arcadian")
-    settings :SystemSettings = SystemSettings(screen, clock)
+    settings: SystemSettings = SystemSettings(screen, clock)
     settings._best_time = get_hiscore()
     return settings
 
