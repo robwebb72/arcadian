@@ -6,7 +6,7 @@ A very simple little dodgem game.
 
 - [x] add a start screen
 - [x] display time correctly
-- [ ] fix transparency on player's ship image
+- [x] fix transparency on player's ship image
 - [ ] add graphics for asteroids
 - [ ] add collision detection - use sprites for this
 - [ ] add high score feature

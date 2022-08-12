@@ -1,5 +1,6 @@
 import pygame
 import typing
+import colours
 
 SCREEN_WIDTH = 512
 SCREEN_HEIGHT = 768
@@ -31,6 +32,7 @@ class Player:
         self, surface: pygame.Surface, rect: pygame.Rect
     ) -> pygame.Surface:
         new_surface: pygame.Surface = pygame.Surface(rect.size)
+        new_surface.set_colorkey(colours.BLACK)
         new_surface.blit(surface, (0, 0), rect)
         return new_surface
 
