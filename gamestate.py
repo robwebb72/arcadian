@@ -36,18 +36,12 @@ class GameState(BaseGameState):
 
     def update(self, dt_sec: float) -> None:
         self._game_time += dt_sec
+        speed_factor = 1 + int(self._game_time/10)/10
+        self._game_data.asteroids.set_speed_factor(speed_factor)
         if self._game_time > self._system_settings._best_time:
             self._system_settings._best_time = self._game_time
         self._game_data.update(dt_sec)
         return super().update(dt_sec)
-
-    def create_time_str(self, time: float) -> str:
-
-        milliseconds_string = f"{int(time * 10)% 10}"
-        seconds_string = f"{(int(time) % 60):0>2}"
-        minutes_string = f"{(int(time / 60) % 60):0>2}"
-        hours_string = f"{(int(time / 3600)):0>2}"
-        return f"{hours_string}:{minutes_string}:{seconds_string}.{milliseconds_string}"
 
     def handle_input(self, type: int, key: int) -> None:
         self._game_data.player.update_from_input(key, type)
@@ -69,11 +63,21 @@ class GameState(BaseGameState):
         print_rect.center = (x, y)
         screen.blit(print_surface, print_rect)
 
+    def create_time_str(self, time: float) -> str:
+        milliseconds_string = f"{int(time * 10)% 10}"
+        seconds_string = f"{(int(time) % 60):0>2}"
+        minutes_string = f"{(int(time / 60) % 60):0>2}"
+        hours_string = f"{(int(time / 3600)):0>2}"
+        return f"{hours_string}:{minutes_string}:{seconds_string}.{milliseconds_string}"
+
     def draw(self, screen: pygame.Surface) -> None:
         self._game_data.draw(screen)
         gametime_str = self.create_time_str(self._game_time)
         besttime_str = self.create_time_str(self._system_settings._best_time)
         screen_width = self._system_settings.get_screen_size()[0]
+        speed_str= f"x {self._game_data.asteroids._speed_factor:.2}"
+        self.print_to_screen(screen, speed_str, screen_width * 0.25, 30, colours.AQUA)
+
         self.print_to_screen(screen, "TIME", screen_width * 0.5, 15, colours.AQUA)
         self.print_to_screen(screen, gametime_str, screen_width * 0.5, 30, colours.AQUA)
         self.print_to_screen(screen, "BEST TIME", screen_width * 0.75, 15, colours.AQUA)
