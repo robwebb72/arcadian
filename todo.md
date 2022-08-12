@@ -8,9 +8,9 @@ A very simple little dodgem game.
 - [x] display time correctly
 - [x] fix transparency on player's ship image
 - [x] add high score feature
+- [x] load and save high score
 - [ ] add graphics for asteroids
 - [ ] add collision detection - use sprites for this?
-- [ ] load and save high score
 - [ ] update speed as game progresses
 - [ ] add sound effects
 - [ ] add particle effects
