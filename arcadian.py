@@ -4,7 +4,7 @@ import pygame
 import colours
 from starfield import Starfield
 from systemsettings import SystemSettings
-
+from playlist import PlayList
 from gamestate import GameState
 from menustate import MenuState
 
@@ -14,6 +14,7 @@ FPS = 30
 
 game_states = {}
 
+playlist = PlayList()
 
 def get_hiscore() -> float:
     hiscore: float = 0
@@ -49,6 +50,7 @@ def game_loop(settings: SystemSettings):
 
     while settings.get_state() != "exit":
         dt_sec = clock.tick(FPS) / 1000
+        playlist.check()
 
         if settings.get_init_state():
             game_states[settings.get_state()].initialise()
@@ -82,8 +84,11 @@ def game():
     game_states["menu"] = MenuState(settings)
     settings.set_state("menu")
     settings.set_init_state(True)
+    playlist.load("music")
+    playlist.start()
     game_loop(settings)
     save_hiscore(settings._best_time)
+    playlist.stop()
     pygame.quit()
     sys.exit()
 
