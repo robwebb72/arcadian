@@ -1,11 +1,7 @@
 import sys
-import typing
-
 import pygame
 
 import colours
-from asteroid import AsteroidField
-from player import Player
 from starfield import Starfield
 from systemsettings import SystemSettings
 
