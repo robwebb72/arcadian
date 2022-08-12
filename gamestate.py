@@ -36,7 +36,7 @@ class GameState(BaseGameState):
 
     def update(self, dt_sec: float) -> None:
         self._game_time += dt_sec
-        speed_factor = 1 + int(self._game_time/10)/10
+        speed_factor = 1 + int(self._game_time / 10) / 10
         self._game_data.asteroids.set_speed_factor(speed_factor)
         if self._game_time > self._system_settings._best_time:
             self._system_settings._best_time = self._game_time
@@ -75,7 +75,7 @@ class GameState(BaseGameState):
         gametime_str = self.create_time_str(self._game_time)
         besttime_str = self.create_time_str(self._system_settings._best_time)
         screen_width = self._system_settings.get_screen_size()[0]
-        speed_str= f"x {self._game_data.asteroids._speed_factor:.2}"
+        speed_str = f"x {self._game_data.asteroids._speed_factor:.2}"
         self.print_to_screen(screen, speed_str, screen_width * 0.25, 30, colours.AQUA)
 
         self.print_to_screen(screen, "TIME", screen_width * 0.5, 15, colours.AQUA)

@@ -2,7 +2,7 @@
 
 A very simple little dodgem game.
 
-There's a folder called music in the root... put your own .mp3 or .ogg files in here and Arcadian will play them while you dodge those pesky asteroids.
+There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files in here and __Arcadian__ will play them while you dodge those pesky asteroids.
 
 ## Things to do
 
@@ -11,14 +11,14 @@ There's a folder called music in the root... put your own .mp3 or .ogg files in 
 - [x] fix transparency on player's ship image
 - [x] add high score feature
 - [x] load and save high score
+- [x] update speed as game progresses
+- [x] add music
 - [ ] add graphics for asteroids
 - [ ] add collision detection - use sprites for this?
-- [x] update speed as game progresses
 - [ ] add sound effects
 - [ ] add particle effects
 - when ship blows up
 - ship's engines
-- [x] add music
 - [ ] PlayList class needs error handling
 - [ ] Can I add support for a controller?
 
