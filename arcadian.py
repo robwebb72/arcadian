@@ -32,7 +32,6 @@ def get_hiscore() -> float:
 
 def save_hiscore(score:float) -> None:
     with open('hiscore.dat','w') as file:
-        print(score)
         file.write(f'{score}')
 
 def game_init() -> SystemSettings:
