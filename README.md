@@ -2,6 +2,8 @@
 
 A very simple little dodgem game.
 
+There's a folder called music in the root... put your own .mp3 or .ogg files in here and Arcadian will play them while you dodge those pesky asteroids.
+
 ## Things to do
 
 - [x] add a start screen
@@ -16,4 +18,5 @@ A very simple little dodgem game.
 - [ ] add particle effects
 - when ship blows up
 - ship's engines
-- [ ] add music
+- [x] add music
+- [ ] PlayList class needs error handling
