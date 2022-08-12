@@ -16,6 +16,7 @@ game_states = {}
 
 playlist = PlayList()
 
+
 def get_hiscore() -> float:
     hiscore: float = 0
     try:

@@ -10,8 +10,8 @@ class PlayList:
         self._track_number = 0
         mixer.init()
         mixer.music.set_volume(0.7)
-        
-    def load(self,folder_name:str) -> None:
+
+    def load(self, folder_name: str) -> None:
         for _, _, files in os.walk(folder_name):
             for file in files:
                 extension = os.path.splitext(file)[1]
@@ -19,14 +19,14 @@ class PlayList:
                     self._track_files.append(os.path.join(folder_name, file))
 
     def list(self) -> None:
-        i =0
-        while i<len(self._track_files):
-            file_name= os.path.basename(self._track_files[i])
+        i = 0
+        while i < len(self._track_files):
+            file_name = os.path.basename(self._track_files[i])
             track_name = os.path.splitext(file_name)[0]
-            print(f'{i} : {track_name}')
-            i +=1
-    
-    def play_track(self, i : int) -> None:
+            print(f"{i} : {track_name}")
+            i += 1
+
+    def play_track(self, i: int) -> None:
         mixer.music.load(self._track_files[i])
         mixer.music.play()
 
