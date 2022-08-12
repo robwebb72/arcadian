@@ -56,4 +56,5 @@ class AsteroidField:
         [asteroid.draw(screen) for asteroid in self._asteroids]
 
     def set_speed_factor(self, speed_factor: float) -> None:
+        self._speed_factor = speed_factor
         [asteroid.update_speed_factor(speed_factor) for asteroid in self._asteroids]
