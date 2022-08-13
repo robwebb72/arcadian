@@ -20,8 +20,8 @@ class Player:
         self._direction_right: bool = False
         self._direction_up: bool = False
         self._direction_down: bool = False
-        self._location_x: float = (SCREEN_WIDTH - PLAYER_WIDTH) / 2
-        self._location_y: float = 708
+        pos_x: float = (SCREEN_WIDTH - PLAYER_WIDTH) / 2
+        self.position: pygame.math.Vector2 = pygame.math.Vector2(pos_x, 708)
         self._speed: float = 200
         self._frames: typing.List[MaskedSurface] = []
         self._load_frames()
@@ -49,27 +49,30 @@ class Player:
         return new_surface
 
     def update(self, dt_sec: float) -> None:
+        
         # TODO: check if pygame's vectors could simplify this
+        delta_vec: pygame.math.Vector2 = pygame.math.Vector2(0,0)
         if self._direction_left:
-            self._location_x -= dt_sec * self._speed
+            delta_vec.x -= dt_sec * self._speed
         if self._direction_right:
-            self._location_x += dt_sec * self._speed
+            delta_vec.x += dt_sec * self._speed
         if self._direction_up:
-            self._location_y -= dt_sec * self._speed
+            delta_vec.y -= dt_sec * self._speed
         if self._direction_down:
-            self._location_y += dt_sec * self._speed
+            delta_vec.y += dt_sec * self._speed
+        self.position += delta_vec
         self._check_bounds()
 
     def _check_bounds(self) -> None:
         # TODO: check if pygame's vectors could simplify this
-        if self._location_y < SCREEN_HEIGHT / 2:
-            self._location_y = SCREEN_HEIGHT / 2
-        if self._location_x < 5:
-            self._location_x = 5
-        if self._location_y > SCREEN_HEIGHT - 35:
-            self._location_y = SCREEN_HEIGHT - 35
-        if self._location_x > SCREEN_WIDTH - 35:
-            self._location_x = SCREEN_WIDTH - 35
+        if self.position.y < SCREEN_HEIGHT / 2:
+            self.position.y = SCREEN_HEIGHT / 2
+        if self.position.x < 5:
+            self.position.x = 5
+        if self.position.y > SCREEN_HEIGHT - 35:
+            self.position.y = SCREEN_HEIGHT - 35
+        if self.position.x > SCREEN_WIDTH - 35:
+            self.position.x = SCREEN_WIDTH - 35
 
     def update_from_input(self, key: int, event_type: int) -> None:
         if key == pygame.K_LEFT:
@@ -89,12 +92,9 @@ class Player:
         elif self._direction_right and not self._direction_left:
             self._frame_number = 2
 
-    def location(self) -> typing.Tuple[float, float]:
-        return (self._location_x, self._location_y)
-
     def get_masked_surface(self) -> MaskedSurface:
         return self._frames[self._frame_number]
 
     def draw(self, screen):
         surface = self.get_masked_surface().surface
-        screen.blit(surface, self.location())
+        screen.blit(surface, self.position)
