@@ -14,7 +14,8 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - [x] update speed as game progresses
 - [x] add music
 - [x] add graphics for asteroids
-- [ ] add collision detection - use sprites for this?
+- [x] add collision detection - use sprites for this?
+- [ ] deal with player death and game over
 - [ ] add sound effects
 - [ ] add particle effects
 - when ship blows up
