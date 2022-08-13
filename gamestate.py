@@ -13,10 +13,12 @@ class GameData:
     def __init__(self, screen_size: typing.Tuple[int, int]) -> None:
         self.player = Player()
         self.asteroids = AsteroidField(10, screen_size)
+        self.player_is_alive = True
 
     def update(self, dt_sec: float) -> None:
-        self.player.update(dt_sec)
         self.asteroids.update(dt_sec)
+        if self.player_is_alive:
+            self.player.update(dt_sec)
 
     def draw(self, screen: pygame.Surface) -> None:
         self.asteroids.draw(screen)
@@ -26,6 +28,7 @@ class GameData:
 class GameState(BaseGameState):
     def __init__(self, system_settings: SystemSettings) -> None:
         self._game_time: float = 0
+        self.boom = False
         self._system_settings: SystemSettings = system_settings
         super().__init__()
 
@@ -35,6 +38,14 @@ class GameState(BaseGameState):
         self._system_settings.set_init_state(False)
 
     def update(self, dt_sec: float) -> None:
+
+        if self._game_data.asteroids.check_for_collision(
+            self._game_data.player.get_masked_surface(),
+            self._game_data.player.position
+            ):
+            #self._game_data.player_is_alive = False
+            self.boom = True
+#        else:
         self._game_time += dt_sec
         speed_factor = 1 + int(self._game_time / 10) / 10
         self._game_data.asteroids.set_speed_factor(speed_factor)
@@ -44,9 +55,10 @@ class GameState(BaseGameState):
         return super().update(dt_sec)
 
     def handle_input(self, type: int, key: int) -> None:
-        self._game_data.player.update_from_input(key, type)
-        if key == pygame.K_a and type == pygame.KEYDOWN:
-            self._game_data.asteroids.set_speed_factor(2.0)
+        if self._game_data.player_is_alive:
+            self._game_data.player.update_from_input(key, type)
+            if key == pygame.K_a and type == pygame.KEYDOWN:
+                self._game_data.asteroids.set_speed_factor(2.0)
         if key == pygame.K_ESCAPE:
             self._system_settings.set_state("menu")
 
@@ -64,5 +76,11 @@ class GameState(BaseGameState):
 
         super().print(screen, "BEST TIME", screen_width * 0.75, 15, colours.AQUA)
         super().print(screen, besttime_str, screen_width * 0.75, 30, colours.AQUA)
+
+        if self.boom:
+            super().print(screen, "BOOOOM!!!", screen_width * 0.5, 300, colours.RED)
+            self.boom = False
+        else:
+            super().print(screen, "Alive!", screen_width * 0.5, 300, colours.GREEN)
 
         return super().draw(screen)

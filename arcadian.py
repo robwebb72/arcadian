@@ -73,7 +73,7 @@ def game_loop(settings: SystemSettings):
 
         if settings.get_init_state():
             continue
-        screen.fill(colours.BLACK)
+        screen.fill((0,0,30))
         starfield.draw(screen)
         game_states[settings.get_state()].draw(screen)
         pygame.display.update()

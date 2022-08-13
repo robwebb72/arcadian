@@ -4,7 +4,6 @@ import colours
 from maskedsurface import MaskedSurface
 
 # TODO: get rid of these global constants!
-
 SCREEN_WIDTH = 512
 SCREEN_HEIGHT = 768
 
@@ -49,7 +48,6 @@ class Player:
         return new_surface
 
     def update(self, dt_sec: float) -> None:
-        
         # TODO: check if pygame's vectors could simplify this
         delta_vec: pygame.math.Vector2 = pygame.math.Vector2(0,0)
         if self._direction_left:
