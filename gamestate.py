@@ -50,7 +50,6 @@ class GameState(BaseGameState):
         if key == pygame.K_ESCAPE:
             self._system_settings.set_state("menu")
 
-
     def draw(self, screen: pygame.Surface) -> None:
         self._game_data.draw(screen)
         gametime_str = super().create_time_str(self._game_time)
@@ -62,7 +61,7 @@ class GameState(BaseGameState):
 
         super().print(screen, "TIME", screen_width * 0.5, 15, colours.AQUA)
         super().print(screen, gametime_str, screen_width * 0.5, 30, colours.AQUA)
-        
+
         super().print(screen, "BEST TIME", screen_width * 0.75, 15, colours.AQUA)
         super().print(screen, besttime_str, screen_width * 0.75, 30, colours.AQUA)
 

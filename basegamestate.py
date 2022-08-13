@@ -1,6 +1,7 @@
 import pygame
 import typing
 
+
 class BaseGameState:
     def state_init(self):
         pass

@@ -19,9 +19,15 @@ class MenuState(BaseGameState):
         return super().update(dt_sec)
 
     def draw(self, screen: pygame.Surface) -> None:
-        super().print(screen, "Welcome to Arcadian", self._screen_width *.5, 150, colours.GREEN)
-        super().print(screen, "Press SPACE to Start", self._screen_width *.5, 500, colours.AQUA)
-        super().print(screen, "Press ESCAPE to Quit", self._screen_width *.5, 530, colours.AQUA)
+        super().print(
+            screen, "Welcome to Arcadian", self._screen_width * 0.5, 150, colours.GREEN
+        )
+        super().print(
+            screen, "Press SPACE to Start", self._screen_width * 0.5, 500, colours.AQUA
+        )
+        super().print(
+            screen, "Press ESCAPE to Quit", self._screen_width * 0.5, 530, colours.AQUA
+        )
 
         besttime_str = super().create_time_str(self._system_settings._best_time)
         super().print(screen, "BEST TIME", self._screen_width * 0.75, 15, colours.AQUA)

@@ -5,16 +5,18 @@ import pygame
 
 
 class Asteroid:
-    def __init__(self, screen_size: typing.Tuple[int, int], image : pygame.Surface) -> None:
+    def __init__(
+        self, screen_size: typing.Tuple[int, int], image: pygame.Surface
+    ) -> None:
         self._screen_width, self._screen_height = screen_size
         self._speed_factor = 1.0
-        self._rect : pygame.Rect = pygame.Rect(0,0, 60, 60)
+        self._rect: pygame.Rect = pygame.Rect(0, 0, 60, 60)
         self._image = image
         self._create_new()
-        self.is_alive : bool = True
+        self.is_alive: bool = True
         self._location_y = random.randrange(-self._screen_height, -self._rect.height)
 
-    def set_image(self, surface : pygame.Surface) -> None:
+    def set_image(self, surface: pygame.Surface) -> None:
         self._image = surface
         self._rect = surface.get_rect()
 
@@ -39,18 +41,21 @@ class Asteroid:
 
     def _create_new(self):
         self._speed = random.randrange(100, 200)
-        self._location_x = random.randint(self._rect.width, self._screen_width - self._rect.width)
+        self._location_x = random.randint(
+            self._rect.width, self._screen_width - self._rect.width
+        )
         self._location_y = -self._rect.height
         self._position = (self._location_x, self._location_y)
 
-    def create_new(self, surface : pygame.Surface) -> None:
+    def create_new(self, surface: pygame.Surface) -> None:
         self.set_image(surface)
         self._create_new()
         self.is_alive = True
 
+
 class AsteroidField:
     def __init__(self, nasteroids: int, screen_size: typing.Tuple) -> None:
-        self._images :typing.List[pygame.Surface]= []
+        self._images: typing.List[pygame.Surface] = []
 
         for i in range(6):
             image: pygame.Surface = pygame.image.load(f"images/asteroid{i}.png")
@@ -60,8 +65,7 @@ class AsteroidField:
         self._speed_factor = 1.0
         self._asteroids = []
         for i in range(nasteroids):
-            self._asteroids.append(Asteroid(screen_size,random.choice(self._images)))
-
+            self._asteroids.append(Asteroid(screen_size, random.choice(self._images)))
 
     def update(self, dt_sec: float) -> None:
         for asteroid in self._asteroids:
