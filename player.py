@@ -23,9 +23,9 @@ class Player:
         self._location_x: float = (SCREEN_WIDTH - PLAYER_WIDTH) / 2
         self._location_y: float = 708
         self._speed: float = 200
-
         self._frames: typing.List[MaskedSurface] = []
         self._load_frames()
+        self._frame_number: int = 0
 
     def _load_frames(self) -> None:
         image: pygame.Surface = pygame.image.load("images/player.png")
@@ -49,6 +49,7 @@ class Player:
         return new_surface
 
     def update(self, dt_sec: float) -> None:
+        # TODO: check if pygame's vectors could simplify this
         if self._direction_left:
             self._location_x -= dt_sec * self._speed
         if self._direction_right:
@@ -60,6 +61,7 @@ class Player:
         self._check_bounds()
 
     def _check_bounds(self) -> None:
+        # TODO: check if pygame's vectors could simplify this
         if self._location_y < SCREEN_HEIGHT / 2:
             self._location_y = SCREEN_HEIGHT / 2
         if self._location_x < 5:
@@ -69,24 +71,30 @@ class Player:
         if self._location_x > SCREEN_WIDTH - 35:
             self._location_x = SCREEN_WIDTH - 35
 
-    def location(self) -> typing.Tuple[float, float]:
-        return (self._location_x, self._location_y)
-
-    def draw(self, screen):
-        image = self._frames[0].surface
-        if self._direction_right:
-            image = self._frames[2].surface
-        elif self._direction_left:
-            image = self._frames[1].surface
-
-        screen.blit(image, self.location())
-
     def update_from_input(self, key: int, event_type: int) -> None:
-        if key == pygame.K_RIGHT:
-            self._direction_right = event_type == pygame.KEYDOWN
-        elif key == pygame.K_LEFT:
+        if key == pygame.K_LEFT:
             self._direction_left = event_type == pygame.KEYDOWN
+        elif key == pygame.K_RIGHT:
+            self._direction_right = event_type == pygame.KEYDOWN
         elif key == pygame.K_UP:
             self._direction_up = event_type == pygame.KEYDOWN
         elif key == pygame.K_DOWN:
             self._direction_down = event_type == pygame.KEYDOWN
+        self._update_frame_number()
+
+    def _update_frame_number(self):
+        self._frame_number = 0
+        if self._direction_left and not self._direction_right:
+            self._frame_number = 1
+        elif self._direction_right and not self._direction_left:
+            self._frame_number = 2
+
+    def location(self) -> typing.Tuple[float, float]:
+        return (self._location_x, self._location_y)
+
+    def get_masked_surface(self) -> MaskedSurface:
+        return self._frames[self._frame_number]
+
+    def draw(self, screen):
+        surface = self.get_masked_surface().surface
+        screen.blit(surface, self.location())
