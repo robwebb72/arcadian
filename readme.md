@@ -14,15 +14,24 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - [x] update speed as game progresses
 - [x] add music
 - [x] add graphics for asteroids
-- [ ] add collision detection - use sprites for this?
+- [x] add collision detection - use sprites for this?
+- [ ] deal with player death and game over
 - [ ] add sound effects
 - [ ] add particle effects
 - when ship blows up
 - ship's engines
 - [ ] PlayList class needs error handling
-- [ ] Can I add support for a controller?
+- [ ] Add support for a controller
+- [ ] The asteroid code could down with some tidying up and refactoring
+- [ ] Add more asteroids as time increases
+
 
 ## Other Ideas
 
 - Add collectable items?  Fuel maybe?
 - Add aliens in there to shoot at?
+- Change from time to a score - allows for other things,  e.g.
+  - aliens to shoot
+  - collectibles
+  - bonus for using turbo boost
+- speech bubbles! 
