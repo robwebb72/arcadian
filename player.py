@@ -1,9 +1,14 @@
 import pygame
 import typing
 import colours
+from maskedsurface import MaskedSurface
+
+# TODO: get rid of these global constants!
 
 SCREEN_WIDTH = 512
 SCREEN_HEIGHT = 768
+
+# these constants are fine, they are local to this class
 PLAYER_WIDTH = 30
 PLAYER_HEIGHT = 30
 PLAYER_RECT = pygame.Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
@@ -18,15 +23,22 @@ class Player:
         self._location_x: float = (SCREEN_WIDTH - PLAYER_WIDTH) / 2
         self._location_y: float = 708
         self._speed: float = 200
-        image: pygame.Surface = pygame.image.load("images/player.png")
 
-        self._image_straight: pygame.Surface = self._get_image_at(image, PLAYER_RECT)
-        self._image_left: pygame.Surface = self._get_image_at(
+        self._frames: typing.List[MaskedSurface] = []
+        self._load_frames()
+
+    def _load_frames(self) -> None:
+        image: pygame.Surface = pygame.image.load("images/player.png")
+        image_straight: pygame.Surface = self._get_image_at(image, PLAYER_RECT)
+        image_left: pygame.Surface = self._get_image_at(
             image, pygame.Rect(PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         )
-        self._image_right: pygame.Surface = self._get_image_at(
+        image_right: pygame.Surface = self._get_image_at(
             image, pygame.Rect(PLAYER_WIDTH * 2, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         )
+        self._frames.append(MaskedSurface(image_straight))
+        self._frames.append(MaskedSurface(image_left))
+        self._frames.append(MaskedSurface(image_right))
 
     def _get_image_at(
         self, surface: pygame.Surface, rect: pygame.Rect
@@ -61,11 +73,11 @@ class Player:
         return (self._location_x, self._location_y)
 
     def draw(self, screen):
-        image = self._image_straight
+        image = self._frames[0].surface
         if self._direction_right:
-            image = self._image_right
+            image = self._frames[2].surface
         elif self._direction_left:
-            image = self._image_left
+            image = self._frames[1].surface
 
         screen.blit(image, self.location())
 
