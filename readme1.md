@@ -20,9 +20,17 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - when ship blows up
 - ship's engines
 - [ ] PlayList class needs error handling
-- [ ] Can I add support for a controller?
+- [ ] Add support for a controller
+- [ ] The asteroid code could down with some tidying up and refactoring
+- [ ] Add more asteroids as time increases
+
 
 ## Other Ideas
 
 - Add collectable items?  Fuel maybe?
 - Add aliens in there to shoot at?
+- Change from time to a score - allows for other things,  e.g.
+  - aliens to shoot
+  - collectibles
+  - bonus for using turbo boost
+- speech bubbles! 
