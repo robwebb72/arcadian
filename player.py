@@ -49,7 +49,7 @@ class Player:
 
     def update(self, dt_sec: float) -> None:
         # TODO: check if pygame's vectors could simplify this
-        delta_vec: pygame.math.Vector2 = pygame.math.Vector2(0,0)
+        delta_vec: pygame.math.Vector2 = pygame.math.Vector2(0, 0)
         if self._direction_left:
             delta_vec.x -= dt_sec * self._speed
         if self._direction_right:

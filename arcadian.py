@@ -1,7 +1,6 @@
 import sys
 import pygame
 
-import colours
 from starfield import Starfield
 from systemsettings import SystemSettings
 from playlist import PlayList
@@ -73,7 +72,7 @@ def game_loop(settings: SystemSettings):
 
         if settings.get_init_state():
             continue
-        screen.fill((0,0,30))
+        screen.fill((0, 0, 30))
         starfield.draw(screen)
         game_states[settings.get_state()].draw(screen)
         pygame.display.update()
@@ -81,10 +80,12 @@ def game_loop(settings: SystemSettings):
 
 def game():
     settings = game_init()
+
     game_states["game"] = GameState(settings)
     game_states["menu"] = MenuState(settings)
     settings.set_state("menu")
     settings.set_init_state(True)
+
     playlist.load("music")
     playlist.start()
     game_loop(settings)

@@ -1,10 +1,18 @@
 import pygame
-import typing
+
+# from state_manager import StateManager
 
 
 class BaseGameState:
-    def state_init(self):
-        pass
+    def __init__(self, key: str) -> None:
+        self._key = key
+        self._state_manager = None
+
+    def set_state_manager(self, manager):
+        self._state_manager = manager
+
+    def change_state(self, state_key: str) -> None:
+        self._state_manager.set_current_state_by_key(state_key)
 
     def initialise(self) -> None:
         pass
@@ -17,5 +25,3 @@ class BaseGameState:
 
     def handle_input(self, type: int, key: int) -> None:
         pass
-
-
