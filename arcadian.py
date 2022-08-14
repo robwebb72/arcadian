@@ -48,9 +48,7 @@ def game_loop(settings: SystemSettings):
             if game_state_manager.current_state_activated == False:
                 continue
             if hasattr(event, "key"):
-                game_state_manager.get_state().handle_input(
-                    event.type, event.key
-                )
+                game_state_manager.get_state().handle_input(event.type, event.key)
 
         if game_state_manager.current_state_activated == False:
             continue
