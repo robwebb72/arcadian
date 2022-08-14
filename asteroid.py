@@ -1,9 +1,8 @@
 import random
-from typing import List, Tuple
-
 import pygame
-from pygame import Vector2
 
+from typing import List, Tuple
+from pygame import Vector2, Surface
 from maskedsurface import MaskedSurface
 
 
@@ -21,7 +20,6 @@ class Asteroid:
             -self._screen_height, -self._maskedSurface.rect.height
         )
 
-
     def set_image(self, maskedSurface: MaskedSurface) -> None:
         self._maskedSurface = maskedSurface
 
@@ -32,7 +30,7 @@ class Asteroid:
         if self.position.y > self._screen_height + self._maskedSurface.rect.height:
             self.is_active = False
 
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen: Surface):
         screen.blit(self._maskedSurface.surface, self.position)
 
     def update_speed_factor(self, factor: float):
@@ -41,9 +39,7 @@ class Asteroid:
     def _create_new(self):
         self._speed = random.randrange(100, 200)
         width = self._maskedSurface.rect.width
-        pos_x = random.randint(
-            int(width / 2), self._screen_width - int(width / 2)
-        )
+        pos_x = random.randint(int(width / 2), self._screen_width - int(width / 2))
         pos_y = -self._maskedSurface.rect.height
         self.position: Vector2 = Vector2(pos_x, pos_y)
 
@@ -52,9 +48,9 @@ class Asteroid:
         self._create_new()
         self.is_active = True
 
-    def collide_with(self, maskedSurface : MaskedSurface, position: Vector2) -> bool:
+    def collide_with(self, maskedSurface: MaskedSurface, position: Vector2) -> bool:
         this_rect = self._maskedSurface.rect
-        other_rect= maskedSurface.rect
+        other_rect = maskedSurface.rect
         this_rect.x = self.position.x
         this_rect.y = self.position.y
 
@@ -64,8 +60,14 @@ class Asteroid:
         if other_rect.colliderect(this_rect) == False:
             return False
 
-        collideswith = maskedSurface.mask.overlap(self._maskedSurface.mask, self.position - position) != None
+        collideswith = (
+            maskedSurface.mask.overlap(
+                self._maskedSurface.mask, self.position - position
+            )
+            != None
+        )
         return collideswith
+
 
 class AsteroidField:
     def __init__(self, nasteroids: int, screen_size: Tuple[int, int]) -> None:
@@ -81,7 +83,7 @@ class AsteroidField:
 
     def load_surfaces(self) -> None:
         for i in range(6):
-            surface: pygame.Surface = pygame.image.load(f"images/asteroid{i}.png")
+            surface: Surface = pygame.image.load(f"images/asteroid{i}.png")
             maskedSurface: MaskedSurface = MaskedSurface(surface)
             self._surfaces.append(maskedSurface)
 
@@ -92,14 +94,16 @@ class AsteroidField:
             else:
                 asteroid.create_new(random.choice(self._surfaces))
 
-    def draw(self, screen: pygame.Surface) -> None:
+    def draw(self, screen: Surface) -> None:
         [asteroid.draw(screen) for asteroid in self._asteroids]
 
     def set_speed_factor(self, speed_factor: float) -> None:
         self._speed_factor = speed_factor
         [asteroid.update_speed_factor(speed_factor) for asteroid in self._asteroids]
 
-    def check_for_collision(self, maskedSurface: MaskedSurface, position: Vector2) -> bool:
+    def check_for_collision(
+        self, maskedSurface: MaskedSurface, position: Vector2
+    ) -> bool:
         for asteroid in self._asteroids:
             if asteroid.collide_with(maskedSurface, position):
                 return True

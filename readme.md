@@ -25,7 +25,6 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - [ ] The asteroid code could down with some tidying up and refactoring
 - [ ] Add more asteroids as time increases
 
-
 ## Other Ideas
 
 - Add collectable items?  Fuel maybe?
@@ -34,4 +33,4 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
   - aliens to shoot
   - collectibles
   - bonus for using turbo boost
-- speech bubbles! 
+- speech bubbles!
