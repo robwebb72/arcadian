@@ -10,8 +10,6 @@ class SystemSettings:
         self._screen: Surface = screen
         self._clock: time.Clock = clock
         self._font: font.Font = font.Font("freesansbold.ttf", 12)
-        #self._currentstate: str = "menu"
-        #self._init_state: bool = True
         self._best_time: float = 0
         self.game_state_manager = GameStateManager()
         self.app_quit = False
