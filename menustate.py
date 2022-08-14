@@ -14,7 +14,7 @@ class MenuState(GameStateInterface):
         self._screen_width = self._system_settings._screen.get_width()
 
     def initialise(self) -> None:
-        self._system_settings.set_init_state(False)
+        pass
 
     def update(self, dt_sec: float) -> None:
         pass
@@ -44,6 +44,6 @@ class MenuState(GameStateInterface):
 
     def handle_input(self, type: int, key: int) -> None:
         if key == pygame.K_ESCAPE and type == pygame.KEYDOWN:
-            self._system_settings.set_state("exit")
+            self._system_settings.app_quit = True
         if key == pygame.K_SPACE and type == pygame.KEYDOWN:
             self._system_settings.set_state("game")

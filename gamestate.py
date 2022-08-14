@@ -42,7 +42,6 @@ class GameState(GameStateInterface):
     def initialise(self):
         self._game_time = 0
         self._game_data = GameData(self._system_settings.get_screen_size())
-        self._system_settings.set_init_state(False)
         self._state = GAME_RUNNING
 
     def update(self, dt_sec: float) -> None:

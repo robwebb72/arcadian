@@ -1,40 +1,48 @@
-import typing
+from typing import Tuple
 
-import pygame
+from pygame import Surface, font, time
+
+from game_state_manager import GameStateManager
 
 
 class SystemSettings:
-    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock) -> None:
-        self._screen: pygame.Surface = screen
-        self._clock: pygame.time.Clock = clock
-        self._font: pygame.font.Font = pygame.font.Font("freesansbold.ttf", 12)
-        self._currentstate: str = "menu"
-        self._init_state: bool = True
+    def __init__(self, screen: Surface, clock: time.Clock) -> None:
+        self._screen: Surface = screen
+        self._clock: time.Clock = clock
+        self._font: font.Font = font.Font("freesansbold.ttf", 12)
+        #self._currentstate: str = "menu"
+        #self._init_state: bool = True
         self._best_time: float = 0
+        self.gamestate = GameStateManager()
+        self.app_quit = False
 
-    def get_screen(self) -> pygame.Surface:
+    def get_screen(self) -> Surface:
         return self._screen
 
-    def get_clock(self) -> pygame.time.Clock:
+    def get_clock(self) -> time.Clock:
         return self._clock
 
-    def get_screen_size(self) -> typing.Tuple[int, int]:
+    def get_screen_size(self) -> Tuple[int, int]:
         width = self._screen.get_width()
         height = self._screen.get_height()
         return (width, height)
 
-    def get_font(self) -> pygame.font.Font:
+    def get_font(self) -> font.Font:
         return self._font
 
-    def get_state(self) -> str:
-        return self._currentstate
 
-    def get_init_state(self) -> bool:
-        return self._init_state
+    def add_state(self, key, state):
+        self.gamestate.add_state(key, state)
+
+    def get_state(self) -> str:
+        return self.gamestate.get_current_state()
 
     def set_state(self, state: str) -> None:
-        self._init_state = state != self._currentstate
-        self._currentstate = state
+        self.gamestate.set_current_state(state)
+        self.set_state_is_activated(False)
 
-    def set_init_state(self, state: bool) -> None:
-        self._init_state = state
+    def set_state_is_activated(self, state: bool) -> None:
+        self.gamestate._current_state_activated = state
+
+    def get_state_is_activated(self) -> bool:
+        return self.gamestate._current_state_activated
