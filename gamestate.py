@@ -6,7 +6,6 @@ import pygame
 import colours
 import utility_functions
 from asteroid import AsteroidField
-from basegamestate import BaseGameState
 from gamestateinterface import GameStateInterface
 from player import Player
 from systemsettings import SystemSettings
@@ -64,7 +63,7 @@ class GameState(GameStateInterface):
             if key == pygame.K_a and type == pygame.KEYDOWN:
                 self._game_data.asteroids.set_speed_factor(2.0)
         if key == pygame.K_ESCAPE:
-            self._system_settings.set_state("menu")
+            self._system_settings.game_state_manager.set_state("menu")
 
     def draw(self, screen: pygame.Surface) -> None:
         self._game_data.draw(screen)

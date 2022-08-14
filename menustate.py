@@ -45,5 +45,6 @@ class MenuState(GameStateInterface):
     def handle_input(self, type: int, key: int) -> None:
         if key == pygame.K_ESCAPE and type == pygame.KEYDOWN:
             self._system_settings.app_quit = True
+            self._system_settings.game_state_manager.current_state_activated = False
         if key == pygame.K_SPACE and type == pygame.KEYDOWN:
-            self._system_settings.set_state("game")
+            self._system_settings.game_state_manager.set_state("game")

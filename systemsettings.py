@@ -13,7 +13,7 @@ class SystemSettings:
         #self._currentstate: str = "menu"
         #self._init_state: bool = True
         self._best_time: float = 0
-        self.gamestate = GameStateManager()
+        self.game_state_manager = GameStateManager()
         self.app_quit = False
 
     def get_screen(self) -> Surface:
@@ -29,20 +29,3 @@ class SystemSettings:
 
     def get_font(self) -> font.Font:
         return self._font
-
-
-    def add_state(self, key, state):
-        self.gamestate.add_state(key, state)
-
-    def get_state(self) -> str:
-        return self.gamestate.get_current_state()
-
-    def set_state(self, state: str) -> None:
-        self.gamestate.set_current_state(state)
-        self.set_state_is_activated(False)
-
-    def set_state_is_activated(self, state: bool) -> None:
-        self.gamestate._current_state_activated = state
-
-    def get_state_is_activated(self) -> bool:
-        return self.gamestate._current_state_activated
