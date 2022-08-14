@@ -78,7 +78,7 @@ class AsteroidField:
     def _load_masked_surfaces(self) -> List[MaskedSurface]:
         maskedSurfaces = []
         for i in range(6):
-            surface: Surface = pygame.image.load(f"images/asteroid{i}.png")
+            surface: Surface = pygame.image.load(f"images/asteroid{i:02d}.png")
             maskedSurface: MaskedSurface = MaskedSurface(surface)
             maskedSurfaces.append(maskedSurface)
         return maskedSurfaces
