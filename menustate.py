@@ -1,5 +1,5 @@
 import pygame
-
+import utility_functions
 import colours
 from basegamestate import BaseGameState
 from systemsettings import SystemSettings
@@ -19,19 +19,21 @@ class MenuState(BaseGameState):
         return super().update(dt_sec)
 
     def draw(self, screen: pygame.Surface) -> None:
-        super().print(
-            screen, "Welcome to Arcadian", self._screen_width * 0.5, 150, colours.GREEN
+        font = self._system_settings.get_font()
+        screen_width = self._screen_width
+        utility_functions.print(
+            screen, font, "Welcome to Arcadian", screen_width * 0.5, 150, colours.GREEN
         )
-        super().print(
-            screen, "Press SPACE to Start", self._screen_width * 0.5, 500, colours.AQUA
+        utility_functions.print(
+            screen, font, "Press SPACE to Start", screen_width * 0.5, 500, colours.AQUA
         )
-        super().print(
-            screen, "Press ESCAPE to Quit", self._screen_width * 0.5, 530, colours.AQUA
+        utility_functions.print(
+            screen, font, "Press ESCAPE to Quit", screen_width * 0.5, 530, colours.AQUA
         )
 
-        besttime_str = super().create_time_str(self._system_settings._best_time)
-        super().print(screen, "BEST TIME", self._screen_width * 0.75, 15, colours.AQUA)
-        super().print(screen, besttime_str, self._screen_width * 0.75, 30, colours.AQUA)
+        besttime_str = utility_functions.create_time_str(self._system_settings._best_time)
+        utility_functions.print(screen, font, "BEST TIME", self._screen_width * 0.75, 15, colours.AQUA)
+        utility_functions.print(screen, font, besttime_str, self._screen_width * 0.75, 30, colours.AQUA)
 
         return super().draw(screen)
 
