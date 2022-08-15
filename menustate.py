@@ -12,8 +12,8 @@ class MenuState(GameStateInterface):
         self._game_time: float = 0
         self._system_settings: SystemSettings = system_settings
         self._screen_width = self._system_settings._screen.get_width()
-        self._surface = pygame.Surface((70,30))
-        self._surface.fill((127,127,127))
+        self._surface = pygame.Surface((70, 30))
+        self._surface.fill((127, 127, 127))
         self._surface.set_alpha(127)
 
     def initialise(self) -> None:
@@ -38,7 +38,7 @@ class MenuState(GameStateInterface):
         besttime_str = utility_functions.create_time_str(
             self._system_settings._best_time
         )
-        screen.blit(self._surface,(350,7))
+        screen.blit(self._surface, (350, 7))
         utility_functions.print(
             screen, font, "BEST TIME", self._screen_width * 0.75, 15, colours.AQUA
         )

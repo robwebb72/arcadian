@@ -31,6 +31,7 @@ class Star:
     def get_position(self):
         return (self._x, int(self._y))
 
+
 class Starfield:
     def __init__(self, nstars: int, screen_size: typing.Tuple[int, int]):
         self._stars = []

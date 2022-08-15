@@ -36,8 +36,8 @@ class GameState(GameStateInterface):
         self.collision_detected = False
         self._system_settings: SystemSettings = system_settings
         self._state: int = 0
-        self._surface = pygame.Surface((70,30))
-        self._surface.fill((127,127,127))
+        self._surface = pygame.Surface((70, 30))
+        self._surface.fill((127, 127, 127))
         self._surface.set_alpha(127)
 
     def initialise(self):
@@ -104,7 +104,7 @@ class GameState(GameStateInterface):
             screen, font, speed_str, screen_width * 0.25, 30, colours.AQUA
         )
 
-        screen.blit(self._surface,(220,7))
+        screen.blit(self._surface, (220, 7))
         utility_functions.print(
             screen, font, "TIME", screen_width * 0.5, 15, colours.AQUA
         )
@@ -113,7 +113,7 @@ class GameState(GameStateInterface):
             screen, font, gametime_str, screen_width * 0.5, 30, colours.AQUA
         )
 
-        screen.blit(self._surface,(350,7))
+        screen.blit(self._surface, (350, 7))
         utility_functions.print(
             screen, font, "BEST TIME", screen_width * 0.75, 15, colours.AQUA
         )
@@ -123,6 +123,7 @@ class GameState(GameStateInterface):
         utility_functions.print(
             screen, font, besttime_str, screen_width * 0.75, 30, colours.AQUA
         )
+
 
 #        if self.collision_detected:
 #            utility_functions.print(
