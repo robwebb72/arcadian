@@ -38,7 +38,7 @@ class Asteroid:
     def _create_new(self):
         self._speed = random.randrange(100, 200)
         width = self._maskedSurface.rect.width
-        pos_x = random.randint(int(width / 2), self._screen_size.x - int(width / 2))
+        pos_x = random.randint(-int(width / 2), self._screen_size.x - int(width / 2))
         pos_y = -self._maskedSurface.rect.height
         self.position: Vector2 = Vector2(pos_x, pos_y)
 
