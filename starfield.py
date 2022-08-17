@@ -9,8 +9,7 @@ class Star:
         self._width, self._height = screen_size
         self._x: int = random.randint(0, self._width)
         self._y: float = random.randrange(self._height)
-        self._surface = surface
-        self._surface_rect = pygame.Rect(0, 0, 1, 1)
+        self._rect = pygame.Rect(0, 0, 1, 1)
         self._speed: float = 0
         self._setspeed()
 
@@ -18,9 +17,9 @@ class Star:
         rand_val = random.randint(3, 7)
         self._speed = self._height / rand_val
         if rand_val < 5:
-            self._surface_rect = pygame.Rect(0, 0, 2, 2)
+            self._rect = pygame.Rect(0, 0, 2, 2)
         else:
-            self._surface_rect = pygame.Rect(0, 0, 1, 1)
+            self._rect = pygame.Rect(0, 0, 1, 1)
 
     def update(self, dt_sec: float):
         self._y += self._speed * dt_sec
@@ -29,9 +28,8 @@ class Star:
             self._y = 0
             self._setspeed()
 
-    def draw(self, screen):
-        position = (self._x, int(self._y))
-        screen.blit(self._surface, position, area=self._surface_rect)
+    def get_position(self):
+        return (self._x, int(self._y))
 
 
 class Starfield:
@@ -42,9 +40,17 @@ class Starfield:
         for i in range(nstars):
             self._stars.append(Star(screen_size, self._surface))
 
-    def update(self, dt):
-        for star in self._stars:
-            star.update(dt)
+    def update(self, dt_sec):
+        [star.update(dt_sec) for star in self._stars]
 
     def draw(self, screen):
-        _ = [star.draw(screen) for star in self._stars]
+        blit_list = self._create_blit_list()
+        screen.blits(blit_list)
+
+    def _create_blit_list(self):
+        blit_list = []
+        [
+            blit_list.append((self._surface, star.get_position(), star._rect))
+            for star in self._stars
+        ]
+        return blit_list

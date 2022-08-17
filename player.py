@@ -25,6 +25,8 @@ class Player:
         self._frames: typing.List[MaskedSurface] = []
         self._load_frames()
         self._frame_number: int = 0
+        self._alive = True
+        # TODO: create particle emitters for jet plumes
 
     def _load_frames(self) -> None:
         image: pygame.Surface = pygame.image.load("images/player.png")
@@ -48,21 +50,24 @@ class Player:
         return new_surface
 
     def update(self, dt_sec: float) -> None:
-        # TODO: check if pygame's vectors could simplify this
-        delta_vec: pygame.math.Vector2 = pygame.math.Vector2(0, 0)
-        if self._direction_left:
-            delta_vec.x -= dt_sec * self._speed
-        if self._direction_right:
-            delta_vec.x += dt_sec * self._speed
-        if self._direction_up:
-            delta_vec.y -= dt_sec * self._speed
-        if self._direction_down:
-            delta_vec.y += dt_sec * self._speed
-        self.position += delta_vec
-        self._check_bounds()
+        if self._alive:
+            delta_vec: pygame.math.Vector2 = pygame.math.Vector2(0, 0)
+            if self._direction_left:
+                delta_vec.x -= dt_sec * self._speed
+            if self._direction_right:
+                delta_vec.x += dt_sec * self._speed
+            if self._direction_up:
+                delta_vec.y -= dt_sec * self._speed
+            if self._direction_down:
+                delta_vec.y += dt_sec * self._speed
+            self.position += delta_vec
+            self._check_bounds()
+            # TODO: update jet plumes
+
+    def set_player_dead(self):
+        self._alive = False
 
     def _check_bounds(self) -> None:
-        # TODO: check if pygame's vectors could simplify this
         if self.position.y < SCREEN_HEIGHT / 2:
             self.position.y = SCREEN_HEIGHT / 2
         if self.position.x < 5:
@@ -73,6 +78,8 @@ class Player:
             self.position.x = SCREEN_WIDTH - 35
 
     def update_from_input(self, key: int, event_type: int) -> None:
+        if self._alive == False:
+            return
         if key == pygame.K_LEFT:
             self._direction_left = event_type == pygame.KEYDOWN
         elif key == pygame.K_RIGHT:
@@ -94,5 +101,7 @@ class Player:
         return self._frames[self._frame_number]
 
     def draw(self, screen):
-        surface = self.get_masked_surface().surface
-        screen.blit(surface, self.position)
+        if self._alive:
+            surface = self.get_masked_surface().surface
+            screen.blit(surface, self.position)
+            # TODO: draw jet plumes

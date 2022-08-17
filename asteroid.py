@@ -38,7 +38,7 @@ class Asteroid:
     def _create_new(self):
         self._speed = random.randrange(100, 200)
         width = self._maskedSurface.rect.width
-        pos_x = random.randint(int(width / 2), self._screen_size.x - int(width / 2))
+        pos_x = random.randint(-int(width / 2), self._screen_size.x - int(width / 2))
         pos_y = -self._maskedSurface.rect.height
         self.position: Vector2 = Vector2(pos_x, pos_y)
 
@@ -78,7 +78,7 @@ class AsteroidField:
     def _load_masked_surfaces(self) -> List[MaskedSurface]:
         maskedSurfaces = []
         for i in range(6):
-            surface: Surface = pygame.image.load(f"images/asteroid{i}.png")
+            surface: Surface = pygame.image.load(f"images/asteroid{i:02d}.png")
             maskedSurface: MaskedSurface = MaskedSurface(surface)
             maskedSurfaces.append(maskedSurface)
         return maskedSurfaces
