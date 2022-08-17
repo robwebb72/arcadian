@@ -15,8 +15,8 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - [x] add music
 - [x] add graphics for asteroids
 - [x] add collision detection - use sprites for this?
-- [ ] deal with player death and game over
-- [ ] add sound effects
+- [x] deal with player death and game over
+- [x] add sound effects
 - [ ] add particle effects
 - when ship blows up
 - ship's engines
