@@ -8,6 +8,7 @@ from asteroid import AsteroidField
 from gamestateinterface import GameStateInterface
 from player import Player
 from systemsettings import SystemSettings
+from particle_system import ParticleExplosion
 
 
 class GameData:
@@ -48,7 +49,9 @@ class GameState(GameStateInterface):
         elif state == GAME_OVER:
             self._state_timer = 5
             self._game_data.player.set_player_dead()
-            # create explosion emitter self._explosion = new ParticleExplosion()
+            self._explosion = ParticleExplosion(self._game_data.player.position)
+            self._explosion.turn_on()
+            self._explosion.update(0)
             self._explosion_sound.play()
 
     def update(self, dt_sec: float) -> None:
@@ -76,7 +79,7 @@ class GameState(GameStateInterface):
         if self._state_timer <= 0:
             self._system_settings.game_state_manager.set_state("menu")
         self._game_data.asteroids.update(dt_sec)
-        # TODO: update explosion emitter   self._explosion.update(dt_sec)
+        self._explosion.update(dt_sec)
 
     def handle_input(self, type: int, key: int) -> None:
         if self._state == GAME_RUNNING:
@@ -100,7 +103,7 @@ class GameState(GameStateInterface):
 
     def draw_game_over(self, screen):
         self._game_data.asteroids.draw(screen)
-        # TODO: render player explosion   self._explosion.render(screen)
+        self._explosion.draw(screen)
         screen_width = screen.get_width()
         font = self._system_settings.get_font()
         utility_functions.print(
