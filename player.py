@@ -1,7 +1,10 @@
-import pygame
 import typing
+
+import pygame
+
 import colours
 from maskedsurface import MaskedSurface
+from particle_system import ParticleJetPlume
 
 # TODO: get rid of these global constants!
 SCREEN_WIDTH = 512
@@ -26,7 +29,21 @@ class Player:
         self._load_frames()
         self._frame_number: int = 0
         self._alive = True
-        # TODO: create particle emitters for jet plumes
+
+        self._jet_left = ParticleJetPlume(self.position)
+        self._jet_right = ParticleJetPlume(self.position)
+        self._jet_left.turn_on()
+        self._jet_right.turn_on()
+
+    def _update_jet_plume_positions(self):
+        self._jet_left.update_position(self._jet_left_position())
+        self._jet_right.update_position(self._jet_right_position())
+
+    def _jet_left_position(self):
+        return self.position + pygame.math.Vector2(11, 30)
+
+    def _jet_right_position(self):
+        return self.position + pygame.math.Vector2(17, 30)
 
     def _load_frames(self) -> None:
         image: pygame.Surface = pygame.image.load("images/player.png").convert()
@@ -62,7 +79,9 @@ class Player:
                 delta_vec.y += dt_sec * self._speed
             self.position += delta_vec
             self._check_bounds()
-            # TODO: update jet plumes
+            self._update_jet_plume_positions()
+            self._jet_left.update(dt_sec)
+            self._jet_right.update(dt_sec)
 
     def set_player_dead(self):
         self._alive = False
@@ -104,4 +123,5 @@ class Player:
         if self._alive:
             surface = self.get_masked_surface().surface
             screen.blit(surface, self.position)
-            # TODO: draw jet plumes
+            self._jet_left.draw(screen)
+            self._jet_right.draw(screen)

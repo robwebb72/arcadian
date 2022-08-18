@@ -17,9 +17,10 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - [x] add collision detection - use sprites for this?
 - [x] deal with player death and game over
 - [x] add sound effects
-- [ ] add particle effects
+- [x] add particle effects
 - when ship blows up
 - ship's engines
+- [ ] Particle system code needs large clean up
 - [ ] PlayList class needs error handling
 - [ ] Add support for a controller
 - [ ] The asteroid code could down with some tidying up and refactoring

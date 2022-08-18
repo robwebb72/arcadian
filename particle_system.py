@@ -14,7 +14,16 @@ PARTICLE_DEAD = 1
 
 
 class ParticleType:
-    def __init__(self, lifetime_fn, weighting: int, colour_fn, size_fn, direction_fn, offset_fn, speed_fn):
+    def __init__(
+        self,
+        lifetime_fn,
+        weighting: int,
+        colour_fn,
+        size_fn,
+        direction_fn,
+        offset_fn,
+        speed_fn,
+    ):
         self._weighting = weighting
         self._lifetime_fn = lifetime_fn
         self._colour_fn = colour_fn
@@ -24,10 +33,7 @@ class ParticleType:
         self._speed_fn = speed_fn
 
     def _vector_fn(self):
-        return self._direction_fn(self._speed_calc())
-
-    def _speed_calc(self):
-        return self._speed_fn()
+        return self._direction_fn(self._speed_fn())
 
 
 class Particle:
@@ -43,7 +49,9 @@ class Particle:
             self._state = PARTICLE_DEAD
             return
         self._size_fn = particle_type._size_fn
-        self._vector_value: pygame.math.Vector2 = pygame.math.Vector2(particle_type._vector_fn())
+        self._vector_value: pygame.math.Vector2 = pygame.math.Vector2(
+            particle_type._vector_fn()
+        )
         self._state = PARTICLE_ALIVE
         self._offset = particle_type._offset_fn()
         self._colour_fn = particle_type._colour_fn
@@ -65,7 +73,9 @@ class Particle:
         if self._state == PARTICLE_DEAD:
             return
 
-        delta = pygame.math.Vector2(self._vector_value.x * dt_sec, self._vector_value.y * dt_sec)
+        delta = pygame.math.Vector2(
+            self._vector_value.x * dt_sec, self._vector_value.y * dt_sec
+        )
         self._position += delta
 
     def colour(self) -> int:
@@ -87,8 +97,8 @@ class ParticleEmitter:
         perpetual: bool = False,
     ):
         self._state = EMITTER_CREATED
+        self.update_position(position)
         self._particle_type_weighting: int = self._calc_weighting_total(particle_types)
-        self.position = position
         self._particle_types = particle_types
         self._particles: List[Particle] = self._create_particles(nparticles)
         self._perpetual = perpetual
@@ -106,7 +116,7 @@ class ParticleEmitter:
         particle_type = self._get_particle_type()
         particle = Particle()
         particle.create_from_type(particle_type)
-        particle.set_position(self.position)
+        particle.set_position(self._position)
         return particle
 
     def _create_particles(self, nparticles: int) -> List[Particle]:
@@ -145,7 +155,8 @@ class ParticleEmitter:
             if particle._state == PARTICLE_DEAD and self._perpetual:
                 random_value = randint(0, self._particle_type_weighting)
                 particle_type = self._find_particle_type_by_weighting(random_value)
-                particle = particle_type.create_particle()
+                particle.create_from_type(particle_type)
+                particle.set_position(self._position)
             else:
                 particle.update(dt_sec)
         if self._are_any_particles_active() or self._perpetual:
@@ -169,19 +180,25 @@ class ParticleEmitter:
             if particle._state == PARTICLE_ALIVE:
                 size = particle.size()
                 pygame.draw.rect(
-                    screen, particle.colour(), (int(particle._position.x), int(particle._position.y), size, size)
+                    screen,
+                    particle.colour(),
+                    (int(particle._position.x), int(particle._position.y), size, size),
                 )
 
 
 lifetime_fn = lambda x, y: x + random.random() * (y - x)
 size_fn = lambda x: 1 if x > 0.5 else 2
 white_fn = lambda x: (255, 255, 255)
+white_fade_fn = lambda x: (255, 255, 255) if x < 0.5 else (127, 127, 127)
 red_fn = lambda x: (255, 0, 0)
 yellow_fn = lambda x: (255, 255, 0)
 rand_speed_fn = lambda x: x * (0.1 + random.random() * 0.9)
 offset_origin_fn = lambda: pygame.math.Vector2(0, 0)
-vector_circular_unit_vector_fn = lambda x: pygame.math.Vector2(x, 0).rotate(random.random() * 360)
+vector_circular_unit_vector_fn = lambda x: pygame.math.Vector2(x, 0).rotate(
+    random.random() * 360
+)
 vector_2_fn = lambda x: pygame.math.Vector2(100, 0)
+offset_fn = lambda x, y: pygame.math.Vector2(x, y)
 
 explosion_particle1 = ParticleType(
     lambda: lifetime_fn(0.4, 0.6),
@@ -233,17 +250,83 @@ explosion_particle5 = ParticleType(
     lambda: rand_speed_fn(500),
 )
 
-explosion_types = [explosion_particle1, explosion_particle2, explosion_particle3, explosion_particle4, explosion_particle5]
+explosion_types = [
+    explosion_particle1,
+    explosion_particle2,
+    explosion_particle3,
+    explosion_particle4,
+    explosion_particle5,
+]
+
 
 class ParticleExplosion:
     def __init__(self, position: pygame.math.Vector2) -> None:
         self._emitter = ParticleEmitter(300, explosion_types, position)
-    
+
     def turn_on(self):
         self._emitter.turn_on(True)
 
     def draw(self, screen):
         self._emitter.draw(screen)
-    
-    def update(self, dt_sec:float):
+
+    def update(self, dt_sec: float):
+        self._emitter.update(dt_sec)
+
+
+plume_vector_fn = lambda x: pygame.math.Vector2(0, x * (random.random() * 0.5))
+
+plume_type1 = ParticleType(
+    lambda: lifetime_fn(0.04, 0.2),
+    2,
+    yellow_fn,
+    lambda x: 2,
+    plume_vector_fn,
+    lambda: pygame.math.Vector2(0, 0),
+    lambda: 300,
+)
+plume_type2 = ParticleType(
+    lambda: lifetime_fn(0.04, 0.2),
+    2,
+    red_fn,
+    lambda x: 2,
+    plume_vector_fn,
+    lambda: pygame.math.Vector2(2, 0),
+    lambda: 300,
+)
+plume_type3 = ParticleType(
+    lambda: lifetime_fn(0.04, 0.2),
+    2,
+    red_fn,
+    lambda x: 2,
+    plume_vector_fn,
+    lambda: pygame.math.Vector2(-2, 0),
+    lambda: 300,
+)
+plume_type4 = ParticleType(
+    lambda: lifetime_fn(0.5, 0.8),
+    10,
+    white_fn,
+    lambda x: 1,
+    plume_vector_fn,
+    lambda: pygame.math.Vector2(0, 0),
+    lambda: 30,
+)
+
+plume_types = [plume_type1, plume_type2, plume_type3, plume_type4]
+
+
+class ParticleJetPlume:
+    def __init__(self, position: pygame.math.Vector2) -> None:
+        self._emitter = ParticleEmitter(50, plume_types, position, True)
+
+    def update_position(self, position):
+        self._emitter.update_position(position)
+
+    def turn_on(self):
+        self._emitter.turn_on(True)
+
+    def draw(self, screen):
+        self._emitter.draw(screen)
+
+    def update(self, dt_sec: float):
         self._emitter.update(dt_sec)
