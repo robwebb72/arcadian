@@ -295,7 +295,7 @@ plume_type2 = ParticleType(
 )
 plume_type3 = ParticleType(
     lambda: lifetime_fn(0.04, 0.2),
-    2,
+    5,
     red_fn,
     lambda x: 2,
     plume_vector_fn,
@@ -303,13 +303,13 @@ plume_type3 = ParticleType(
     lambda: 300,
 )
 plume_type4 = ParticleType(
-    lambda: lifetime_fn(0.5, 0.8),
+    lambda: lifetime_fn(1.5, 1.8),
     10,
     white_fn,
     lambda x: 1,
     plume_vector_fn,
-    lambda: pygame.math.Vector2(0, 0),
-    lambda: 30,
+    lambda: pygame.math.Vector2(0, 2),
+    lambda: 120,
 )
 
 plume_types = [plume_type1, plume_type2, plume_type3, plume_type4]
