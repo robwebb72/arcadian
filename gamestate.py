@@ -115,11 +115,6 @@ class GameState(GameStateInterface):
         screen_width = screen.get_width()
         font = self._system_settings.get_font()
 
-        speed_str = f"x {self._game_data.asteroids._speed_factor:.2}"
-        utility_functions.print(
-            screen, font, speed_str, screen_width * 0.25, 30, colours.AQUA
-        )
-
         screen.blit(self._info_background, (220, 7))
         utility_functions.print(
             screen, font, "TIME", screen_width * 0.5, 15, colours.AQUA
