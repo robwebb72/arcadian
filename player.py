@@ -4,7 +4,7 @@ import pygame
 
 import colours
 from maskedsurface import MaskedSurface
-from particle_system import ParticleJetPlume
+from particle_library import ParticleJetPlume
 
 # TODO: get rid of these global constants!
 SCREEN_WIDTH = 512
