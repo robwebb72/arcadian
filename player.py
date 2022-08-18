@@ -29,7 +29,7 @@ class Player:
         # TODO: create particle emitters for jet plumes
 
     def _load_frames(self) -> None:
-        image: pygame.Surface = pygame.image.load("images/player.png")
+        image: pygame.Surface = pygame.image.load("images/player.png").convert()
         image_straight: pygame.Surface = self._get_image_at(image, PLAYER_RECT)
         image_left: pygame.Surface = self._get_image_at(
             image, pygame.Rect(PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
