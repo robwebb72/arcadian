@@ -8,7 +8,7 @@ from asteroid import AsteroidField
 from gamestateinterface import GameStateInterface
 from player import Player
 from systemsettings import SystemSettings
-from particle_system import ParticleExplosion
+from particle_library import ParticleExplosion
 
 
 class GameData:
