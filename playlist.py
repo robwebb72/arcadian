@@ -27,8 +27,9 @@ class PlayList:
             i += 1
 
     def play_track(self, i: int) -> None:
-        mixer.music.load(self._track_files[i])
-        mixer.music.play()
+        if len(self._track_files)>0:
+            mixer.music.load(self._track_files[i])
+            mixer.music.play()
 
     def check(self) -> None:
         if mixer.music.get_busy():
