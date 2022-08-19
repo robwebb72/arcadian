@@ -1,31 +1,26 @@
-import typing
-
 import pygame
 
 import colours
+from typing import Tuple, List
 from maskedsurface import MaskedSurface
 from particle_library import ParticleJetPlume
 
-# TODO: get rid of these global constants!
-SCREEN_WIDTH = 512
-SCREEN_HEIGHT = 768
-
-# these constants are fine, they are local to this class
 PLAYER_WIDTH = 30
 PLAYER_HEIGHT = 30
 PLAYER_RECT = pygame.Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
 
 
 class Player:
-    def __init__(self) -> None:
+    def __init__(self, screen_size: Tuple[int, int]) -> None:
         self._direction_left: bool = False
         self._direction_right: bool = False
         self._direction_up: bool = False
         self._direction_down: bool = False
-        pos_x: float = (SCREEN_WIDTH - PLAYER_WIDTH) / 2
+        self._screen_width, self._screen_height = screen_size
+        pos_x: float = (self._screen_width - PLAYER_WIDTH) / 2
         self.position: pygame.math.Vector2 = pygame.math.Vector2(pos_x, 708)
         self._speed: float = 200
-        self._frames: typing.List[MaskedSurface] = []
+        self._frames: List[MaskedSurface] = []
         self._load_frames()
         self._frame_number: int = 0
         self._alive = True
@@ -87,14 +82,14 @@ class Player:
         self._alive = False
 
     def _check_bounds(self) -> None:
-        if self.position.y < SCREEN_HEIGHT / 2:
-            self.position.y = SCREEN_HEIGHT / 2
+        if self.position.y < self._screen_height / 2:
+            self.position.y = self._screen_height / 2
         if self.position.x < 5:
             self.position.x = 5
-        if self.position.y > SCREEN_HEIGHT - 35:
-            self.position.y = SCREEN_HEIGHT - 35
-        if self.position.x > SCREEN_WIDTH - 35:
-            self.position.x = SCREEN_WIDTH - 35
+        if self.position.y > self._screen_height - 35:
+            self.position.y = self._screen_height - 35
+        if self.position.x > self._screen_width - 35:
+            self.position.x = self._screen_width - 35
 
     def update_from_input(self, key: int, event_type: int) -> None:
         if self._alive == False:
