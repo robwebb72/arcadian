@@ -1,6 +1,8 @@
-from particle_system import ParticleEmitter, ParticleType
-import pygame
 import random
+
+import pygame
+
+from particle_system import ParticleEmitter, ParticleType
 
 lifetime_fn = lambda x, y: x + random.random() * (y - x)
 size_fn = lambda x: 1 if x > 0.5 else 2
@@ -92,6 +94,7 @@ class ParticleExplosion:
 
 
 plume_vector_fn = lambda x: pygame.math.Vector2(0, x * (random.random() * 0.5))
+plume_vector2_fn = lambda x: pygame.math.Vector2(4 *(-1 + random.random()* 2), x * (0.25 + random.random() * 0.25))
 
 plume_type1 = ParticleType(
     lambda: lifetime_fn(0.04, 0.2),
@@ -125,7 +128,7 @@ plume_type4 = ParticleType(
     10,
     white_fn,
     lambda x: 1,
-    plume_vector_fn,
+    plume_vector2_fn,
     lambda: pygame.math.Vector2(0, 2),
     lambda: 120,
 )

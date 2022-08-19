@@ -37,10 +37,10 @@ class ParticleType:
 
 
 class Particle:
-    def __init__(self, particle_type):
-        self.create_from_type(particle_type)
+    def __init__(self, particle_type, position):
+        self.create_from_type(particle_type, position)
 
-    def create_from_type(self, particle_type: ParticleType):
+    def create_from_type(self, particle_type: ParticleType, position):
         self._lifetime_total = particle_type._lifetime_fn()
         if self._lifetime_total == 0:
             self._state = PARTICLE_DEAD
@@ -50,6 +50,7 @@ class Particle:
         self._velocity = pygame.math.Vector2(particle_type._velocity_fn())
         self._offset = particle_type._offset_fn()
         self._colour_fn = particle_type._colour_fn
+        self.set_position(position)
         self._state = PARTICLE_ALIVE
 
     def set_position(self, position: pygame.math.Vector2):
@@ -109,8 +110,7 @@ class ParticleEmitter:
 
     def _create_particle(self):
         particle_type = self._get_particle_type()
-        particle = Particle(particle_type)
-        particle.set_position(self._position)
+        particle = Particle(particle_type, self._position)
         return particle
 
     def _create_particles(self, nparticles: int) -> List[Particle]:
@@ -139,6 +139,8 @@ class ParticleEmitter:
 
     def turn_on(self, set_to_on: bool):
         self._state = EMITTER_RUNNING if set_to_on else EMITTER_STOPPED
+        if self._state == EMITTER_RUNNING:
+            self.update(0)
 
     def update(self, dt_sec: float) -> None:
         if self._state != EMITTER_RUNNING:
@@ -149,8 +151,7 @@ class ParticleEmitter:
             if particle._state == PARTICLE_DEAD and self._perpetual:
                 random_value = randint(0, self._particle_type_weighting)
                 particle_type = self._find_particle_type_by_weighting(random_value)
-                particle.create_from_type(particle_type)
-                particle.set_position(self._position)
+                particle.create_from_type(particle_type, self._position)
             else:
                 particle.update(dt_sec)
         if self._are_any_particles_active() or self._perpetual:

@@ -21,12 +21,12 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - when ship blows up
 - ship's engines
 - [x] Particle system code needs large clean up
-- [ ] PlayList class needs error handling
+- [x] PlayList class needs error handling
+- [x] The asteroid code could down with some tidying up and refactoring
 - [ ] Add support for a controller
-- [ ] The asteroid code could down with some tidying up and refactoring
 - [ ] Add more asteroids as time increases
 
-## Other Ideas - Danger!  Feature Creep
+## Other Ideas - ☣️ Danger ☣️ Feature Creep
 
 - Add collectable items?  Fuel maybe?
 - Add aliens in there to shoot at?

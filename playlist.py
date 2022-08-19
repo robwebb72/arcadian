@@ -17,18 +17,19 @@ class PlayList:
                 extension = os.path.splitext(file)[1]
                 if extension in [".mp3", ".ogg"]:
                     self._track_files.append(os.path.join(folder_name, file))
+        self._remove_invalid_tracks()
 
-    def list(self) -> None:
-        i = 0
-        while i < len(self._track_files):
-            file_name = os.path.basename(self._track_files[i])
-            track_name = os.path.splitext(file_name)[0]
-            print(f"{i} : {track_name}")
-            i += 1
+    def _remove_invalid_tracks(self):
+        for track in self._track_files:
+            try:
+                mixer.load(track)
+            except:
+                self._track_files.remove(track)
 
     def play_track(self, i: int) -> None:
-        mixer.music.load(self._track_files[i])
-        mixer.music.play()
+        if len(self._track_files)>0:
+            mixer.music.load(self._track_files[i])
+            mixer.music.play()
 
     def check(self) -> None:
         if mixer.music.get_busy():
