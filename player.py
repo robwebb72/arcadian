@@ -25,8 +25,8 @@ class Player:
         self._frame_number: int = 0
         self._alive = True
 
-        self._jet_left = ParticleJetPlume(self.position)
-        self._jet_right = ParticleJetPlume(self.position)
+        self._jet_left = ParticleJetPlume(self._jet_left_position())
+        self._jet_right = ParticleJetPlume(self._jet_right_position())
         self._jet_left.turn_on()
         self._jet_right.turn_on()
 
