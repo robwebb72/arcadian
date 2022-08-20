@@ -3,11 +3,10 @@ from pygame import Surface
 
 import colours
 import utility_functions
-from gamestateinterface import GameStateInterface
 from systemsettings import SystemSettings
 
 
-class MenuState(GameStateInterface):
+class MenuState():
     def __init__(self, system_settings: SystemSettings) -> None:
         self._game_time: float = 0
         self._system_settings: SystemSettings = system_settings
