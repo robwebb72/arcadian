@@ -5,7 +5,6 @@ import pygame
 import colours
 import utility_functions
 from asteroid import AsteroidField
-from gamestateinterface import GameStateInterface
 from player import Player
 from particle_library import ParticleExplosion
 
@@ -35,7 +34,7 @@ def create_background_pane() -> pygame.Surface:
         surface.set_alpha(127)
         return surface
 
-class GameState(GameStateInterface):
+class GameState():
     def __init__(self, system_settings):
         self._screen_size = system_settings.get_screen_size()
         self._system_settings = system_settings
