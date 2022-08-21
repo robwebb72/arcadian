@@ -1,5 +1,3 @@
-import random
-import sys
 from random import randint
 from typing import List
 
@@ -94,7 +92,7 @@ class ParticleEmitter:
     ):
         self._state = EMITTER_CREATED
         self.update_position(position)
-        self._particle_type_weighting: int = self._calc_weighting_total(particle_types)
+        self._particle_weighting: int = self._calc_weighting(particle_types)
         self._particle_types = particle_types
         self._particles: List[Particle] = self._create_particles(nparticles)
         self._perpetual = perpetual
@@ -102,7 +100,7 @@ class ParticleEmitter:
     def update_position(self, position: pygame.math.Vector2):
         self._position = position
 
-    def _calc_weighting_total(self, particle_types: List[ParticleType]) -> int:
+    def _calc_weighting(self, particle_types: List[ParticleType]) -> int:
         weighting_total: int = 0
         for particle_type in particle_types:
             weighting_total += particle_type._weighting
@@ -121,10 +119,10 @@ class ParticleEmitter:
         return particles
 
     def _get_particle_type(self) -> ParticleType:
-        random_value: int = randint(0, self._particle_type_weighting)
-        return self._find_particle_type_by_weighting(random_value)
+        random_value: int = randint(0, self._particle_weighting)
+        return self._find_particle_type(random_value)
 
-    def _find_particle_type_by_weighting(self, value: int):
+    def _find_particle_type(self, value: int):
         target_weight = value
         i: int = 1
 
@@ -149,8 +147,8 @@ class ParticleEmitter:
 
         for particle in self._particles:
             if particle._state == PARTICLE_DEAD and self._perpetual:
-                random_value = randint(0, self._particle_type_weighting)
-                particle_type = self._find_particle_type_by_weighting(random_value)
+                random_value = randint(0, self._particle_weighting)
+                particle_type = self._find_particle_type(random_value)
                 particle.create_from_type(particle_type, self._position)
             else:
                 particle.update(dt_sec)

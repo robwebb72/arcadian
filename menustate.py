@@ -1,7 +1,7 @@
 import pygame
 from pygame import Surface
 
-import colours
+from colours import GREEN, AQUA
 import utility_functions
 from systemsettings import SystemSettings
 
@@ -23,15 +23,15 @@ class MenuState():
 
     def draw(self, screen: Surface) -> None:
         font = self._system_settings.get_font()
-        screen_width = self._screen_width
+        width = self._screen_width
         utility_functions.print(
-            screen, font, "Welcome to Arcadian", screen_width * 0.5, 150, colours.GREEN
+            screen, font, "Welcome to Arcadian", width * 0.5, 150, GREEN
         )
         utility_functions.print(
-            screen, font, "Press SPACE to Start", screen_width * 0.5, 500, colours.AQUA
+            screen, font, "Press SPACE to Start", width * 0.5, 500, AQUA
         )
         utility_functions.print(
-            screen, font, "Press ESCAPE to Quit", screen_width * 0.5, 530, colours.AQUA
+            screen, font, "Press ESCAPE to Quit", width * 0.5, 530, AQUA
         )
 
         besttime_str = utility_functions.create_time_str(
@@ -39,10 +39,10 @@ class MenuState():
         )
         screen.blit(self._surface, (350, 7))
         utility_functions.print(
-            screen, font, "BEST TIME", self._screen_width * 0.75, 15, colours.AQUA
+            screen, font, "BEST TIME", self._screen_width * 0.75, 15, AQUA
         )
         utility_functions.print(
-            screen, font, besttime_str, self._screen_width * 0.75, 30, colours.AQUA
+            screen, font, besttime_str, self._screen_width * 0.75, 30, AQUA
         )
 
     def handle_input(self, type: int, key: int) -> None:

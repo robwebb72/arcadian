@@ -1,5 +1,5 @@
-def load() -> float:
-    hiscore: float = 0
+def load():
+    hiscore = 0
     try:
         with open("hiscore.dat") as file:
             contents = file.read()
@@ -9,6 +9,6 @@ def load() -> float:
     return hiscore
 
 
-def save(score: float) -> None:
+def save(hiscore):
     with open("hiscore.dat", "w") as file:
-        file.write(f"{score}")
+        file.write(f"{hiscore}")

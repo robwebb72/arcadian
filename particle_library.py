@@ -4,19 +4,56 @@ import pygame
 
 from particle_system import ParticleEmitter, ParticleType
 
-lifetime_fn = lambda x, y: x + random.random() * (y - x)
-size_fn = lambda x: 1 if x > 0.5 else 2
-white_fn = lambda x: (255, 255, 255)
-white_fade_fn = lambda x: (255, 255, 255) if x < 0.5 else (127, 127, 127)
-red_fn = lambda x: (255, 0, 0)
-yellow_fn = lambda x: (255, 255, 0)
-rand_speed_fn = lambda x: x * (0.1 + random.random() * 0.9)
-offset_origin_fn = lambda: pygame.math.Vector2(0, 0)
-vector_circular_unit_vector_fn = lambda x: pygame.math.Vector2(x, 0).rotate(
-    random.random() * 360
-)
-vector_2_fn = lambda x: pygame.math.Vector2(100, 0)
-offset_fn = lambda x, y: pygame.math.Vector2(x, y)
+
+def lifetime_fn(range_min, range_max):
+    return range_min + random.random() * (range_max - range_min)
+
+
+def size_fn(lifetime_ratio):
+    return 1 if lifetime_ratio > 0.5 else 2
+
+
+def white_fn(lifetime_ratio):
+    return (255, 255, 255)
+
+
+def red_fn(lifetime_ratio):
+    return (255, 0, 0)
+
+
+def yellow_fn(lifetime_ratio):
+    return (255, 255, 0)
+
+
+def white_fade_fn(lifetime_ratio):
+    return (255, 255, 255) if lifetime_ratio < 0.5 else (127, 127, 127)
+
+
+def rand_speed_fn(speed):
+    return speed * (0.1 + random.random() * 0.9)
+
+
+def circular_vector_fn(speed):
+    return pygame.math.Vector2(speed, 0).rotate(random.random() * 360)
+
+
+def offset_vector_fn(x, y):
+    return pygame.math.Vector2(x, y)
+
+
+def origin_vector_fn():
+    return pygame.math.Vector2(0, 0)
+
+
+def plume_vector_fn(x):
+    return pygame.math.Vector2(0, x * (random.random() * 0.5))
+
+
+def plume_vector2_fn(x):
+    return pygame.math.Vector2(
+        4 * (-1 + random.random() * 2), x * (0.25 + random.random() * 0.25)
+    )
+
 
 # ==========  PARTICLE TYPES ===============================================
 
@@ -25,8 +62,8 @@ explosion_particle1 = ParticleType(
     100,
     lambda x: (255, 0, 0),
     lambda x: 2,
-    vector_circular_unit_vector_fn,
-    offset_origin_fn,
+    circular_vector_fn,
+    origin_vector_fn,
     lambda: rand_speed_fn(100),
 )
 
@@ -35,8 +72,8 @@ explosion_particle2 = ParticleType(
     100,
     lambda x: (255, 255, 0),
     lambda x: 2,
-    vector_circular_unit_vector_fn,
-    offset_origin_fn,
+    circular_vector_fn,
+    origin_vector_fn,
     lambda: rand_speed_fn(40),
 )
 
@@ -45,8 +82,8 @@ explosion_particle3 = ParticleType(
     80,
     lambda x: (255, 255, 255),
     lambda x: 2,
-    vector_circular_unit_vector_fn,
-    offset_origin_fn,
+    circular_vector_fn,
+    origin_vector_fn,
     lambda: rand_speed_fn(2000),
 )
 
@@ -55,8 +92,8 @@ explosion_particle4 = ParticleType(
     20,
     lambda x: (255, 255, 255),
     lambda x: 6,
-    vector_circular_unit_vector_fn,
-    offset_origin_fn,
+    circular_vector_fn,
+    origin_vector_fn,
     lambda: rand_speed_fn(500),
 )
 
@@ -65,8 +102,8 @@ explosion_particle5 = ParticleType(
     5,
     lambda x: (255, 0, 0),
     lambda x: 6,
-    vector_circular_unit_vector_fn,
-    offset_origin_fn,
+    circular_vector_fn,
+    origin_vector_fn,
     lambda: rand_speed_fn(500),
 )
 
@@ -92,9 +129,6 @@ class ParticleExplosion:
     def update(self, dt_sec: float):
         self._emitter.update(dt_sec)
 
-
-plume_vector_fn = lambda x: pygame.math.Vector2(0, x * (random.random() * 0.5))
-plume_vector2_fn = lambda x: pygame.math.Vector2(4 *(-1 + random.random()* 2), x * (0.25 + random.random() * 0.25))
 
 plume_type1 = ParticleType(
     lambda: lifetime_fn(0.04, 0.2),

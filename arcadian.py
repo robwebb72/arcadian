@@ -32,11 +32,11 @@ def game_loop(settings: SystemSettings):
     game_state_manager = settings.game_state_manager
     starfield = Starfield(200, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-    while settings.app_quit == False:
+    while settings.app_quit is False:
         dt_sec = clock.tick(FPS) / 1000
         playlist.check()
 
-        if game_state_manager.current_state_activated == False:
+        if game_state_manager.current_state_activated is False:
             game_state_manager.get_state().initialise()
             game_state_manager.current_state_activated = True
 
@@ -45,17 +45,20 @@ def game_loop(settings: SystemSettings):
                 settings.app_quit = True
                 game_state_manager.current_state_activated = False
 
-            if game_state_manager.current_state_activated == False:
+            if game_state_manager.current_state_activated is False:
                 continue
             if hasattr(event, "key"):
-                game_state_manager.get_state().handle_input(event.type, event.key)
+                game_state_manager.get_state().handle_input(
+                    event.type,
+                    event.key
+                )
 
-        if game_state_manager.current_state_activated == False:
+        if game_state_manager.current_state_activated is False:
             continue
         settings.game_state_manager.get_state().update(dt_sec)
         starfield.update(dt_sec)
 
-        if game_state_manager.current_state_activated == False:
+        if game_state_manager.current_state_activated is False:
             continue
         screen.fill(colours.DARK_BLUE)
         starfield.draw(screen)
