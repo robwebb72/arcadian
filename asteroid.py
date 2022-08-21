@@ -17,17 +17,17 @@ class Asteroid:
         self._create_new()
         self.is_active: bool = True
         self.position.y = random.randrange(
-            -self._screen_size.y, -self._maskedSurface.rect.height
+            -self._screen_size.y, -self._maskedSurface.height()
         )
 
     def set_image(self, maskedSurface: MaskedSurface) -> None:
         self._maskedSurface = maskedSurface
 
     def update(self, dt_sec: float):
-        if self.is_active == False:
+        if self.is_active is False:
             return
         self.position.y += self._speed * dt_sec * self._speed_factor
-        if self.position.y > self._screen_size.y + self._maskedSurface.rect.height:
+        if self.position.y > self._screen_size.y + self._maskedSurface.height():
             self.is_active = False
 
     def draw(self, screen: Surface):
@@ -48,7 +48,7 @@ class Asteroid:
         self._create_new()
         self.is_active = True
 
-    def collide_with(self, maskedSurface: MaskedSurface, position: Vector2) -> bool:
+    def collide_with(self, maskedSurface: MaskedSurface, position: Vector2):
         this_rect = self._maskedSurface.rect
         other_rect = maskedSurface.rect
         this_rect.x = self.position.x
@@ -57,14 +57,14 @@ class Asteroid:
         other_rect.x = position.x
         other_rect.y = position.y
 
-        if other_rect.colliderect(this_rect) == False:
+        if other_rect.colliderect(this_rect) is False:
             return False
 
         collideswith = (
             maskedSurface.mask.overlap(
                 self._maskedSurface.mask, self.position - position
             )
-            != None
+            is not None
         )
         return collideswith
 
@@ -88,7 +88,7 @@ class AsteroidField:
 
     def _create_asteroids(self, nasteroids: int):
         asteroids: List[Asteroid] = []
-        for i in range(nasteroids):
+        for _ in range(nasteroids):
             asteroids.append(Asteroid(self._screen_size, random.choice(self._surfaces)))
         return asteroids
 

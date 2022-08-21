@@ -8,6 +8,9 @@ from asteroid import AsteroidField
 from player import Player
 from particle_library import ParticleExplosion
 
+GAME_RUNNING = 1
+GAME_OVER = 2
+
 
 class GameWorld:
     def __init__(self, screen_size: typing.Tuple[int, int]) -> None:
@@ -23,16 +26,18 @@ class GameWorld:
         self.player.draw(screen)
 
     def player_collided_with_asteroid(self) -> bool:
-        return self.asteroids.check_for_collision(self.player.get_masked_surface(), self.player.position)
+        return self.asteroids.check_for_collision(
+            self.player.get_masked_surface(),
+            self.player.position
+        )
 
-GAME_RUNNING = 1
-GAME_OVER = 2
 
 def create_background_pane() -> pygame.Surface:
-        surface = pygame.Surface((70, 30))
-        surface.fill((127, 127, 127))
-        surface.set_alpha(127)
-        return surface
+    surface = pygame.Surface((70, 30))
+    surface.fill((127, 127, 127))
+    surface.set_alpha(127)
+    return surface
+
 
 class GameState():
     def __init__(self, system_settings):
@@ -53,7 +58,9 @@ class GameState():
         elif state == GAME_OVER:
             self._state_timer = 5
             self._game_world.player.set_player_dead()
-            self._explosion = ParticleExplosion(self._game_world.player.position)
+            self._explosion = ParticleExplosion(
+                self._game_world.player.position
+            )
             self._explosion.turn_on()
             self._explosion_sound.play()
 

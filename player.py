@@ -41,13 +41,14 @@ class Player:
         return self.position + pygame.math.Vector2(17, 30)
 
     def _load_frames(self) -> None:
-        image: pygame.Surface = pygame.image.load("images/player.png").convert()
-        image_straight: pygame.Surface = self._get_image_at(image, PLAYER_RECT)
-        image_left: pygame.Surface = self._get_image_at(
+        image = pygame.image.load("images/player.png").convert()
+        image_straight = self._get_image_at(image, PLAYER_RECT)
+        image_left = self._get_image_at(
             image, pygame.Rect(PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         )
         image_right: pygame.Surface = self._get_image_at(
-            image, pygame.Rect(PLAYER_WIDTH * 2, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
+            image,
+            pygame.Rect(PLAYER_WIDTH * 2, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         )
         self._frames.append(MaskedSurface(image_straight))
         self._frames.append(MaskedSurface(image_left))
@@ -92,7 +93,7 @@ class Player:
             self.position.x = self._screen_width - 35
 
     def update_from_input(self, key: int, event_type: int) -> None:
-        if self._alive == False:
+        if self._alive is False:
             return
         if key == pygame.K_LEFT:
             self._direction_left = event_type == pygame.KEYDOWN

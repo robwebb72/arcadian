@@ -23,11 +23,13 @@ class PlayList:
         for track in self._track_files:
             try:
                 mixer.load(track)
-            except:
+            except (BaseException):
                 self._track_files.remove(track)
 
     def play_track(self, i: int) -> None:
-        if len(self._track_files)>0:
+        if i >= len(self._track_files):
+            i = 0
+        if len(self._track_files) > 0:
             mixer.music.load(self._track_files[i])
             mixer.music.play()
 

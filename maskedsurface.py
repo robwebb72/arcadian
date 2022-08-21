@@ -6,3 +6,9 @@ class MaskedSurface:
         self.surface: pygame.Surface = surface
         self.mask: pygame.mask.Mask = pygame.mask.from_surface(self.surface)
         self.rect: pygame.Rect = self.surface.get_rect()
+
+    def width(self):
+        return self.rect.width
+
+    def height(self):
+        return self.rect.width
