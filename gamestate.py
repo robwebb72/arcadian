@@ -7,6 +7,7 @@ import utility_functions
 from asteroid import AsteroidField
 from player import Player
 from particle_library import ParticleExplosion
+from gamestate_manager import set_state, set_current_state_active
 
 GAME_RUNNING = 1
 GAME_OVER = 2
@@ -27,8 +28,7 @@ class GameWorld:
 
     def player_collided_with_asteroid(self) -> bool:
         return self.asteroids.check_for_collision(
-            self.player.get_masked_surface(),
-            self.player.position
+            self.player.get_masked_surface(), self.player.position
         )
 
 
@@ -39,7 +39,7 @@ def create_background_pane() -> pygame.Surface:
     return surface
 
 
-class GameState():
+class GameState:
     def __init__(self, system_settings):
         self._screen_size = system_settings.get_screen_size()
         self._system_settings = system_settings
@@ -58,9 +58,7 @@ class GameState():
         elif state == GAME_OVER:
             self._state_timer = 5
             self._game_world.player.set_player_dead()
-            self._explosion = ParticleExplosion(
-                self._game_world.player.position
-            )
+            self._explosion = ParticleExplosion(self._game_world.player.position)
             self._explosion.turn_on()
             self._explosion_sound.play()
 
@@ -85,7 +83,7 @@ class GameState():
         if self._state_timer > 0:
             self._state_timer -= dt_sec
         if self._state_timer <= 0:
-            self._system_settings.game_state_manager.set_state("menu")
+            set_state("menu")
         self._game_world.asteroids.update(dt_sec)
         self._explosion.update(dt_sec)
 
@@ -95,9 +93,7 @@ class GameState():
             if key == pygame.K_a and type == pygame.KEYDOWN:
                 self._game_world.asteroids.set_speed_factor(2.0)
         if key == pygame.K_ESCAPE:
-            self._system_settings.game_state_manager.set_state("menu")
-        if key == pygame.K_0:
-            self.set_state(GAME_OVER)
+            set_state("menu")
 
     def draw(self, screen: pygame.Surface) -> None:
         if self._state == GAME_RUNNING:

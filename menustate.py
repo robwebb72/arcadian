@@ -5,8 +5,10 @@ from colours import GREEN, AQUA
 import utility_functions
 from systemsettings import SystemSettings
 
+from gamestate_manager import set_state, set_current_state_active
 
-class MenuState():
+
+class MenuState:
     def __init__(self, system_settings: SystemSettings) -> None:
         self._game_time: float = 0
         self._system_settings: SystemSettings = system_settings
@@ -48,6 +50,6 @@ class MenuState():
     def handle_input(self, type: int, key: int) -> None:
         if key == pygame.K_ESCAPE and type == pygame.KEYDOWN:
             self._system_settings.app_quit = True
-            self._system_settings.game_state_manager.current_state_activated = False
+            set_current_state_active(False)
         if key == pygame.K_SPACE and type == pygame.KEYDOWN:
-            self._system_settings.game_state_manager.set_state("game")
+            set_state("game")

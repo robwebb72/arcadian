@@ -2,8 +2,6 @@ from typing import Tuple
 
 from pygame import Surface, font, time
 
-from game_state_manager import GameStateManager
-
 
 class SystemSettings:
     def __init__(self, screen: Surface, clock: time.Clock) -> None:
@@ -11,7 +9,6 @@ class SystemSettings:
         self._clock: time.Clock = clock
         self._font: font.Font = font.Font("freesansbold.ttf", 12)
         self._best_time: float = 0
-        self.game_state_manager = GameStateManager()
         self.app_quit = False
 
     def get_screen(self) -> Surface:

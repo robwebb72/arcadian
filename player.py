@@ -47,8 +47,7 @@ class Player:
             image, pygame.Rect(PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         )
         image_right: pygame.Surface = self._get_image_at(
-            image,
-            pygame.Rect(PLAYER_WIDTH * 2, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
+            image, pygame.Rect(PLAYER_WIDTH * 2, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         )
         self._frames.append(MaskedSurface(image_straight))
         self._frames.append(MaskedSurface(image_left))
