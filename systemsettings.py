@@ -10,6 +10,7 @@ class SystemSettings:
         self._font: font.Font = font.Font("freesansbold.ttf", 12)
         self._best_time: float = 0
         self.app_quit = False
+        self.current_joystick = None
 
     def get_screen(self) -> Surface:
         return self._screen

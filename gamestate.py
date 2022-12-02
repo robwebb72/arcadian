@@ -5,9 +5,9 @@ import pygame
 import colours
 import utility_functions
 from asteroid import AsteroidField
-from player import Player
+from gamestate_manager import set_state
 from particle_library import ParticleExplosion
-from gamestate_manager import set_state, set_current_state_active
+from player import Player
 
 GAME_RUNNING = 1
 GAME_OVER = 2
@@ -58,7 +58,9 @@ class GameState:
         elif state == GAME_OVER:
             self._state_timer = 5
             self._game_world.player.set_player_dead()
-            self._explosion = ParticleExplosion(self._game_world.player.position)
+            self._explosion = ParticleExplosion(
+                self._game_world.player.position
+            )
             self._explosion.turn_on()
             self._explosion_sound.play()
 
@@ -94,6 +96,11 @@ class GameState:
                 self._game_world.asteroids.set_speed_factor(2.0)
         if key == pygame.K_ESCAPE:
             set_state("menu")
+
+    def handle_joystick(self, button, axis0, axis1):
+        if self._game_world is None:
+            return
+        self._game_world.player.update_from_axes(axis0, axis1)
 
     def draw(self, screen: pygame.Surface) -> None:
         if self._state == GAME_RUNNING:

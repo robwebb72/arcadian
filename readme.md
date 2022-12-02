@@ -18,15 +18,20 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - [x] deal with player death and game over
 - [x] add sound effects
 - [x] add particle effects
-- when ship blows up
-- ship's engines
+  - when ship blows up
+  - ship's engines
 - [x] Particle system code needs large clean up
 - [x] PlayList class needs error handling
 - [x] The asteroid code could down with some tidying up and refactoring
 - [ ] Add support for a controller
+  - add option to select joystick?
+  - add option to select axis?
+
 - [ ] Add more asteroids as time increases
 
-## Other Ideas - ☣️ Danger ☣️ Feature Creep
+## Ideas for Future Versions (but not this version)
+
+☣️ Danger ☣️ Feature Creep
 
 - Add collectable items?  Fuel maybe?
 - Add aliens in there to shoot at?

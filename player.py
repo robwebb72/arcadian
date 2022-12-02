@@ -1,7 +1,8 @@
+from typing import List, Tuple
+
 import pygame
 
 import colours
-from typing import Tuple, List
 from maskedsurface import MaskedSurface
 from particle_library import ParticleJetPlume
 
@@ -12,6 +13,9 @@ PLAYER_RECT = pygame.Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
 
 class Player:
     def __init__(self, screen_size: Tuple[int, int]) -> None:
+        self._delta_pos: pygame.math.Vector2 = pygame.math.Vector2(0, 0)
+        self._xaxis = 0.0
+        self._yaxis = 0.0
         self._direction_left: bool = False
         self._direction_right: bool = False
         self._direction_up: bool = False
@@ -44,10 +48,12 @@ class Player:
         image = pygame.image.load("images/player.png").convert()
         image_straight = self._get_image_at(image, PLAYER_RECT)
         image_left = self._get_image_at(
-            image, pygame.Rect(PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
+            image,
+            pygame.Rect(PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         )
         image_right: pygame.Surface = self._get_image_at(
-            image, pygame.Rect(PLAYER_WIDTH * 2, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
+            image,
+            pygame.Rect(PLAYER_WIDTH * 2, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         )
         self._frames.append(MaskedSurface(image_straight))
         self._frames.append(MaskedSurface(image_left))
@@ -62,21 +68,30 @@ class Player:
         return new_surface
 
     def update(self, dt_sec: float) -> None:
-        if self._alive:
-            delta_vec: pygame.math.Vector2 = pygame.math.Vector2(0, 0)
-            if self._direction_left:
-                delta_vec.x -= dt_sec * self._speed
-            if self._direction_right:
-                delta_vec.x += dt_sec * self._speed
-            if self._direction_up:
-                delta_vec.y -= dt_sec * self._speed
-            if self._direction_down:
-                delta_vec.y += dt_sec * self._speed
-            self.position += delta_vec
-            self._check_bounds()
-            self._update_jet_plume_positions()
-            self._jet_left.update(dt_sec)
-            self._jet_right.update(dt_sec)
+        if not self._alive:
+            return
+
+        self._delta_pos.x = -self._speed if self._direction_left else 0
+        self._delta_pos.x += self._speed if self._direction_right else 0
+        self._delta_pos.y = -self._speed if self._direction_up else 0
+        self._delta_pos.y += self._speed if self._direction_down else 0
+
+        if self._xaxis < -0.1 or self._xaxis > 0.1:
+            self._delta_pos.x = self._xaxis * self._speed
+
+        if self._yaxis < -0.1 or self._yaxis > 0.1:
+            self._delta_pos.y = self._yaxis * self._speed
+
+        delta_vec = self._delta_pos.copy()
+        delta_vec.x *= dt_sec
+        delta_vec.y *= dt_sec
+
+        self._update_frame_number()
+        self.position += delta_vec
+        self._check_bounds()
+        self._update_jet_plume_positions()
+        self._jet_left.update(dt_sec)
+        self._jet_right.update(dt_sec)
 
     def set_player_dead(self):
         self._alive = False
@@ -102,13 +117,18 @@ class Player:
             self._direction_up = event_type == pygame.KEYDOWN
         elif key == pygame.K_DOWN:
             self._direction_down = event_type == pygame.KEYDOWN
-        self._update_frame_number()
+
+    def update_from_axes(self, axis0, axis1):
+
+        self._xaxis = axis0 if axis0 < -0.1 or axis0 > 0.1 else 0
+        self._yaxis = axis1 if axis1 < -0.1 or axis1 > 0.1 else 0
 
     def _update_frame_number(self):
         self._frame_number = 0
-        if self._direction_left and not self._direction_right:
+
+        if self._delta_pos.x < -0.1:
             self._frame_number = 1
-        elif self._direction_right and not self._direction_left:
+        elif self._delta_pos.x > 0.1:
             self._frame_number = 2
 
     def get_masked_surface(self) -> MaskedSurface:

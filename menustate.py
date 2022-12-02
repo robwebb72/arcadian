@@ -1,11 +1,10 @@
 import pygame
 from pygame import Surface
 
-from colours import GREEN, AQUA
 import utility_functions
+from colours import AQUA, GREEN
+from gamestate_manager import set_current_state_active, set_state
 from systemsettings import SystemSettings
-
-from gamestate_manager import set_state, set_current_state_active
 
 
 class MenuState:
@@ -22,6 +21,11 @@ class MenuState:
 
     def update(self, dt_sec: float) -> None:
         pass
+
+# TODO: Write joystick code!
+    def handle_joystick(self, button, axis0, axis1) -> None:
+        if button:
+            set_state("game")
 
     def draw(self, screen: Surface) -> None:
         font = self._system_settings.get_font()

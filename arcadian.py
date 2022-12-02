@@ -46,26 +46,35 @@ def game_loop(settings: SystemSettings):
             get_state().initialise()
             set_current_state_active(True)
 
+        joystick_count = pygame.joystick.get_count()
+        for i in range(joystick_count):
+            joystick = pygame.joystick.Joystick(i)
+            joystick.init()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 settings.app_quit = True
                 set_current_state_active(False)
-
             if state_is_active() is False:
                 continue
             if hasattr(event, "key"):
                 get_state().handle_input(event.type, event.key)
+            joystick_count = pygame.joystick.get_count()
+            if joystick_count > 0:
+                joy_button = pygame.joystick.Joystick(0).get_button(0)
+                joy_axis0 = pygame.joystick.Joystick(0).get_axis(0)
+                joy_axis1 = pygame.joystick.Joystick(0).get_axis(1)
+                get_state().handle_joystick(joy_button, joy_axis0, joy_axis1)
 
-        if state_is_active() is False:
-            continue
-        get_state().update(dt_sec)
+        if state_is_active():
+            get_state().update(dt_sec)
+
         starfield.update(dt_sec)
 
-        if state_is_active() is False:
-            continue
         screen.fill(colours.DARK_BLUE)
         starfield.draw(screen)
-        get_state().draw(screen)
+        if state_is_active():
+            get_state().draw(screen)
         pygame.display.update()
 
 
