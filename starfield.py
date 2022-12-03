@@ -5,11 +5,7 @@ import pygame
 
 
 class Star:
-    def __init__(
-        self,
-        screen_size: typing.Tuple[int, int],
-        surface: pygame.Surface
-    ):
+    def __init__(self, screen_size: typing.Tuple[int, int], surface: pygame.Surface):
         self._width, self._height = screen_size
         self._x: int = random.randint(0, self._width)
         self._y: float = random.randrange(self._height)

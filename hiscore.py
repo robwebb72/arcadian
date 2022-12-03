@@ -4,7 +4,7 @@ def load():
         with open("hiscore.dat") as file:
             contents = file.read()
             hiscore = float(contents)
-    except (FileNotFoundError, ValueError):
+    except (BaseException):
         pass
     return hiscore
 
