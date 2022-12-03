@@ -24,10 +24,10 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - [x] PlayList class needs error handling
 - [x] The asteroid code could down with some tidying up and refactoring
 - [x] Add support for a controller
+- [x] handle issue when controller disconnects
 - [ ] Tidy up controller code
 - [ ] add option to select joystick?
 - [ ] add option to select axis?
-- [ ] handle issue when joystick disconnects
 
 - [ ] Add more asteroids as time increases
 
