@@ -34,7 +34,7 @@ class MenuState:
             screen, font, "Welcome to Arcadian", width * 0.5, 150, GREEN
         )
         utility_functions.print(
-            screen, font, "Press SPACE to Start", width * 0.5, 500, AQUA
+            screen, font, "Press FIRE or SPACE to Start", width * 0.5, 500, AQUA
         )
         utility_functions.print(
             screen, font, "Press ESCAPE to Quit", width * 0.5, 530, AQUA
