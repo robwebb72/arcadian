@@ -2,3 +2,5 @@
 __pycache__/*
 hiscore.dat
 *.mp3
+dist/*
+build/*
