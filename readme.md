@@ -25,16 +25,12 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
 - [x] The asteroid code could down with some tidying up and refactoring
 - [x] Add support for a controller
 - [x] handle issue when controller disconnects
-- [ ] Tidy up controller code
-- [ ] add option to select joystick?
-- [ ] add option to select axis?
-
-- [ ] Add more asteroids as time increases
 
 ## Ideas for Future Versions (but not this version)
 
 ☣️ Danger ☣️ Feature Creep
 
+- Add more asteroids as time increases
 - Add collectable items?  Fuel maybe?
 - Add aliens in there to shoot at?
 - Change from time to a score - allows for other things,  e.g.
