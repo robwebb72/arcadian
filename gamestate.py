@@ -100,6 +100,8 @@ class GameState:
     def handle_joystick(self, button, axis0, axis1):
         if self._game_world is None:
             return
+        if self._state == GAME_OVER and button:
+            set_state("menu")
         self._game_world.player.update_from_axes(axis0, axis1)
 
     def draw(self, screen: pygame.Surface) -> None:
