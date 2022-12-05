@@ -48,8 +48,7 @@ class Player:
         image = pygame.image.load("images/player.png").convert()
         image_straight = self._get_image_at(image, PLAYER_RECT)
         image_left = self._get_image_at(
-            image,
-            pygame.Rect(PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
+            image, pygame.Rect(PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         )
         image_right: pygame.Surface = self._get_image_at(
             image,
