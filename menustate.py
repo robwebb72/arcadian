@@ -22,7 +22,7 @@ class MenuState:
     def update(self, dt_sec: float) -> None:
         pass
 
-# TODO: Write joystick code!
+    # TODO: Write joystick code!
     def handle_joystick(self, button, axis0, axis1) -> None:
         if button:
             set_state("game")
