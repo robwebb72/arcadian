@@ -2,5 +2,7 @@
 __pycache__/*
 hiscore.dat
 *.mp3
-dist/*
+dist-win/*
+dist-mac/*
+dist-lnx/*
 build/*
