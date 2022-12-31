@@ -6,3 +6,4 @@ dist-win/*
 dist-mac/*
 dist-lnx/*
 build/*
+.DS_Store
