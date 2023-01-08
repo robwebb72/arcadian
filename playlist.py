@@ -22,7 +22,7 @@ class PlayList:
     def _remove_invalid_tracks(self):
         for track in self._track_files:
             try:
-                mixer.load(track)
+                mixer.music.load(track)
             except (BaseException):
                 self._track_files.remove(track)
 

@@ -2,3 +2,8 @@
 __pycache__/*
 hiscore.dat
 *.mp3
+dist-win/*
+dist-mac/*
+dist-lnx/*
+build/*
+.DS_Store

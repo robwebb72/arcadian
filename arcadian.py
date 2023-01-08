@@ -28,7 +28,7 @@ def game_init() -> SystemSettings:
     pygame.init()
     clock = pygame.time.Clock()
     clock.tick()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),flags=pygame.SCALED)
     pygame.display.set_caption("Arcadian")
     return SystemSettings(screen, clock)
 
