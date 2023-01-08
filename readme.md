@@ -4,6 +4,10 @@ A very simple little dodgem game.
 
 There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files in here and __Arcadian__ will play them while you dodge those pesky asteroids.
 
+## Deployment
+
+I've used __cx-freeze__ to create folders for each platform (linux, windows and macos).  For some reason MacOs will look to the user's home folder for the music and hiscore files.
+
 ## Things to do
 
 - [x] add a start screen
@@ -37,4 +41,4 @@ There's a folder called music in the root... put your own _.mp3_ or _.ogg_ files
   - aliens to shoot
   - collectibles
   - bonus for using turbo boost
-- speech bubbles!
+- speech bubbles (*"Never tell me the odds!"*)
